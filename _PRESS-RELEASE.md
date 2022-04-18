@@ -19,7 +19,7 @@ Once the project moves into development, the press release can be used as a touc
 ## Heading
 
 > Name the product in a way the reader (i.e. your target customers) will understand.
-> App where you put in height, weight, age, gender, activity level, and it shows you how many carbohydrates you need per day and gives you a sample meal plan matching those carbohydrates
+> App where you put in height, weight, age, gender, activity level, and it shows you how many carbohydrates you need per meal and per day and gives you a sample meal plan matching those carbohydrates
 
 ## Sub-Heading
 

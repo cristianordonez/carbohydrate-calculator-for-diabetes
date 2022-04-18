@@ -1,28 +1,34 @@
 const mongoose = require('mongoose')
 
-main().catch((err) => console.log(err))
+//Set up default mongoose connection
+const mongoDB = 'mongodb://127.0.0.1:27017/nutrition'
 
-async function main() {
-    await mongoose.connect('mongodb://localhost:27017/test')
-}
+mongoose
+   .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+   .then((connect) => {
+      console.log('connected to db')
+   })
+   .catch((err) => {
+      console.log('could not connect to db: ', err)
+   })
 
 //SCHEMAS////////////////////////////////////////
 const RecipeSchema = new mongoose.Schema({
-    recipe_id: Number,
-    name: String,
-    image: String,
+   recipe_id: Number,
+   name: String,
 })
 
 const UserSchema = new mongoose.Schema({
-    user_id: Number,
-    username: String,
-    total_calories: Number,
-    total_CHO: Number,
-    recipes: [RecipeSchema],
+   total_calories: Number,
+   total_CHO: Number,
+   //    recipes: [RecipeSchema],
 })
 
-//MODELS////////////////////////////////////////
-const User = mongoose.model('User', UserSchema)
+//Initiate models
 const Recipe = mongoose.model('Recipe', RecipeSchema)
+const User = mongoose.model('User', UserSchema)
 
-//CONTROLLERS////////////////////////////////
+module.exports = {
+   Recipe,
+   User,
+}

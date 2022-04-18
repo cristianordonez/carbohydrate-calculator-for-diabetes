@@ -1,44 +1,47 @@
 {
-    "name": "hr-rpp35-mvp",
-    "version": "1.0.0",
-    "description": "Fullstack app for T2DM ",
-    "main": "index.jsx",
-    "scripts": {
-        "server-dev": "nodemon server/server.js",
-        "react-dev": "npx webpack --config webpack.config.js --mode development --watch"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/cristianordonez/hr-rpp35-mvp.git"
-    },
-    "author": "Cristian Ordonez",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/cristianordonez/hr-rpp35-mvp/issues"
-    },
-    "homepage": "https://github.com/cristianordonez/hr-rpp35-mvp#readme",
-    "devDependencies": {
-        "@babel/core": "^7.17.9",
-        "@babel/plugin-proposal-class-properties": "^7.16.7",
-        "@babel/preset-react": "^7.16.7",
-        "babel-loader": "^8.2.4",
-        "babel-preset-react": "^6.24.1",
-        "css-loader": "^6.7.1",
-        "html-webpack-plugin": "^5.5.0",
-        "prettier": "2.6.2",
-        "style-loader": "^3.3.1",
-        "webpack": "^5.72.0",
-        "webpack-cli": "^4.9.2",
-        "webpack-dev-server": "^4.8.1"
-    },
-    "dependencies": {
-        "axios": "^0.26.1",
-        "babel-cli": "^6.26.0",
-        "babel-preset-react-app": "^3.1.2",
-        "express": "^4.17.3",
-        "mongoose": "^6.3.0",
-        "react": "^18.0.0",
-        "react-dom": "^18.0.0",
-        "react-router-dom": "^6.3.0"
-    }
+   "name": "hr-rpp35-mvp",
+   "version": "1.0.0",
+   "description": "Fullstack app for T2DM ",
+   "main": "index.jsx",
+   "scripts": {
+      "server-dev": "nodemon server/server.js",
+      "react-dev": "npx webpack --config webpack.config.js --mode development --watch"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/cristianordonez/hr-rpp35-mvp.git"
+   },
+   "author": "Cristian Ordonez",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/cristianordonez/hr-rpp35-mvp/issues"
+   },
+   "homepage": "https://github.com/cristianordonez/hr-rpp35-mvp#readme",
+   "devDependencies": {
+      "@babel/core": "^7.17.9",
+      "@babel/plugin-proposal-class-properties": "^7.16.7",
+      "@babel/preset-react": "^7.16.7",
+      "babel-loader": "^8.2.4",
+      "babel-preset-react": "^6.24.1",
+      "css-loader": "^6.7.1",
+      "html-webpack-plugin": "^5.5.0",
+      "prettier": "2.6.2",
+      "style-loader": "^3.3.1",
+      "webpack": "^5.72.0",
+      "webpack-cli": "^4.9.2",
+      "webpack-dev-server": "^4.8.1"
+   },
+   "dependencies": {
+      "axios": "^0.26.1",
+      "babel-cli": "^6.26.0",
+      "babel-preset-react-app": "^3.1.2",
+      "body-parser": "^1.20.0",
+      "express": "^4.17.3",
+      "mongoose": "^6.3.0",
+      "passport": "^0.5.2",
+      "passport-local": "^1.0.0",
+      "react": "^18.0.0",
+      "react-dom": "^18.0.0",
+      "react-router-dom": "^6.3.0"
+   }
 }
