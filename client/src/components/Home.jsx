@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 
-class App extends Component {
+class Home extends Component {
     constructor(props) {
         super(props)
     }
     render() {
-        return <div>this is a react app</div>
+        //this is edamame badge I need to include
+        return <div id={this.props.id}>this should work</div>
     }
 }
 
-export default App
+export default Home
