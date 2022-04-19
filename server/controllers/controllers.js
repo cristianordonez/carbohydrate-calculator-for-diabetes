@@ -29,12 +29,31 @@ module.exports = {
          }
          //  return userData
       },
-      getUsername: async function (username) {
+      getByUsername: async function (username) {
          try {
             let result = await models.user.get(username)
+            return result
             console.log('result:', result)
          } catch (err) {
+            throw new Error(err)
+         }
+      },
+      saveRecipeToUser: async function (username, recipe) {
+         try {
+            let promise = models.user.update(username, recipe)
+            return promise
+         } catch (err) {
             console.log('err:', err)
+         }
+      },
+   },
+   recipe: {
+      save: async function (recipe) {
+         try {
+            let promise = models.recipe.save(recipe)
+            return promise
+         } catch (err) {
+            throw new Error(err)
          }
       },
    },

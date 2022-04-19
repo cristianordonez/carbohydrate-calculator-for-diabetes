@@ -14,10 +14,33 @@ module.exports = {
       get: async function (name) {
          try {
             let user = await db.User.findOne({ username: name })
-            console.log('user:', user)
             return user
          } catch (err) {
-            console.log('err:', err)
+            throw new Error(err)
+         }
+      },
+      update: function (name, recipe) {
+         db.User.findOneAndUpdate(
+            { username: name },
+            { $push: { recipes: recipe } },
+            function (err, success) {
+               if (err) {
+                  console.log('err in models.update')
+               } else {
+                  console.log(success)
+                  return success
+               }
+            }
+         )
+      },
+   },
+   recipe: {
+      save: async function (recipe) {
+         try {
+            let response = await db.Recipe.create(recipe)
+            return response
+         } catch (err) {
+            throw new Error(err)
          }
       },
    },

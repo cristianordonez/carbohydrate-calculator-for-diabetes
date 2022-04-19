@@ -9,16 +9,17 @@ const session = require('express-session')
 const cors = require('cors')
 const bcrypt = require('bcrypt')
 const config = require('./config/config')
-const { v4: uuidv4 } = require('uuid')
 const MongoStore = require('connect-mongo')
 
 //MIDDLEWARE//////////////////////////////////////////
-// app.use(express.static(__dirname + '/../client/dist'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-// app.use(express.static('client'))
 app.use(express.static(__dirname + '/../client/dist'))
-app.use(cors())
+const corsOptions = {
+   origin: 'http://127.0.0.1:1128',
+   credentials: true,
+}
+app.use(cors(corsOptions))
 
 const oneDay = 1000 * 60 * 60 * 24
 
@@ -27,13 +28,24 @@ const sessionStore = new MongoStore({
    collectionName: 'sessions',
 })
 
+async function authenticateUser(username, password) {
+   let actualPassword = controllers.user.getByUsername(username)
+   let hashedPassword = await actualPassword.then((storedUser) => {
+      if (storedUser) {
+         return storedUser.password
+      } else {
+         console.log('user is not authenticated')
+         return new Error('password does nto match')
+      }
+   })
+   const match = await bcrypt.compare(password, hashedPassword)
+   return match
+}
+
 app.use(
    session({
-      genid: function (req) {
-         return uuidv4()
-      },
       secret: config.SECRET.SESSION_SECRET,
-      saveUninitialized: true,
+      name: 'session_name',
       saveUninitialized: false,
       cookie: { maxAge: oneDay, sameSite: true },
       resave: false,
@@ -41,6 +53,14 @@ app.use(
    })
 )
 
+//todo add this to routes we want to check if user is logged in
+const sessionChecker = (req, res, next) => {
+   if (req.session.user && req.cookies.users_id) {
+      res.redirect('/')
+   } else {
+      next()
+   }
+}
 //ROUTES//////////////////////////////////////////////
 
 // data = {
@@ -49,12 +69,24 @@ app.use(
 // }
 //* handles requests to login
 app.post('/login', (req, res) => {
-   req.session.destroy()
-   console.log(req.session.id)
-   console.log(req.session.name)
-   console.log('req.body:', req.body)
-   //if valid login attempt
-   res.send('sucess')
+   let session = req.session
+   let isAuthenticated = authenticateUser(req.body.username, req.body.password)
+   isAuthenticated.then((isValid) => {
+      req.session.id = session.id
+      req.session.username = req.body.username
+      console.log('isValid:', isValid)
+      if (isValid) {
+         req.session.save((err) => {
+            if (err) {
+               console.log('err:', err)
+            } else {
+               res.send(req.session.user)
+            }
+         })
+      } else {
+         res.status(401).send({ rtnCode: 1 })
+      }
+   })
 })
 
 // data = {
@@ -63,28 +95,28 @@ app.post('/login', (req, res) => {
 // }
 //* handles request to create an account
 app.post('/signup', (req, res) => {
-   const passwordHash = bcrypt.hashSync('Pa$$w0rd', 10)
-   console.log('passwordHash:', passwordHash)
-   req.body.password = passwordHash
-   controllers.user
-      .save(req.body)
-      .then((response) => {
-         console.log('response worked server:', response)
-         res.statusCode = 200
-         res.send('Success!')
-      })
-      .catch((err) => {
-         console.log('err in server:', err)
-         res.statusCode = 400
-         res.send('Could not create account')
-      })
-
-   //    res.redirect('/login')
+   let saltRounds = 10
+   bcrypt.hash(req.body.password, saltRounds, function (err, hashedPassword) {
+      if (err) {
+         console.log('err:', err)
+      } else {
+         req.body.password = hashedPassword
+         controllers.user
+            .save(req.body)
+            .then((response) => {
+               res.statusCode = 200
+               res.send('Success!')
+            })
+            .catch((err) => {
+               res.status(401).send({ rtnCode: 1 })
+            })
+      }
+   })
 })
 
+//* handles logout requests by destroying the session
 app.get('/logout', (req, res) => {
    req.session.destroy()
-   //    res.redirect('/login')
 })
 
 // data = {
@@ -126,10 +158,41 @@ app.get('/:user/recipes', (req, res) => {
 
 // data = {
 //     recipe_id: Number,
-//     name: string;
+//     recipe_name: string;
 // }
-//handles post requests to save recipes
-app.post('/:user/recipes', (req, res) => {})
+//! handles post requests to save recipes
+app.post('/:user/recipes', (req, res) => {
+   console.log('posted to recipes')
+   let session = req.session
+   console.log('session.id:', session.id)
+   console.log('session.username:', session.username)
+   //then get username model from DB from req.sessions
+
+   let promise = controllers.recipe.save(req.body)
+   promise.then((createdRecipe) => {
+      let promiseData = controllers.user.saveRecipeToUser(
+         session.username,
+         createdRecipe
+      )
+      promiseData.then((success) => {
+         res.send('Successfully posted recipe!')
+      })
+      promiseData.catch((err) => {
+         console.log('err in promise data catch:', err)
+      })
+   })
+   promise.catch((err) => {
+      console.log('err:', err)
+      res.status(401).send({ rtnCode: 1 })
+   })
+   //then push and save new recipe model
+})
+
+//todo handles request for saved recipes of user
+app.get('/:user/mealplan', (req, res) => {
+   let session = req.session
+   console.log('session.id:', session.id)
+})
 
 app.listen(port, () => {
    console.log(`Server listening on port ${port}`)
@@ -139,7 +202,7 @@ app.get('/', (req, res, next) => {
    res.status(200).json({
       status: 'success',
       data: {
-         name: 'github-fetcher',
+         name: 'diabetes-app',
          version: '0.1.0',
       },
    })

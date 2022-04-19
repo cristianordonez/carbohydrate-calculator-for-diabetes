@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import TextField from '@mui/material/TextField'
 const axios = require('axios')
 class Login extends Component {
@@ -8,6 +8,7 @@ class Login extends Component {
       this.state = {
          username: '',
          password: '',
+         redirect: false,
       }
       this.handleChange = this.handleChange.bind(this)
       this.handleSubmit = this.handleSubmit.bind(this)
@@ -19,42 +20,51 @@ class Login extends Component {
       console.log('this.stste:', this.state)
       let response = await axios.post('/login', this.state)
       console.log('response:', response)
+      if (response) {
+         this.setState({ redirect: true })
+      } else {
+         this.setState({ redirect: false })
+      }
    }
    render() {
-      return (
-         <div>
-            Login
-            <form
-               onSubmit={(e) => {
-                  e.preventDefault()
-                  this.handleSubmit()
-               }}
-            >
-               <div>
-                  <label htmlFor='username'>Enter username:</label>
-                  <TextField
-                     onChange={this.handleChange}
-                     name='username'
-                     required
-                     id='username'
-                  />
-               </div>
-               <div>
-                  <label htmlFor='password'>Enter password:</label>
-                  <TextField
-                     onChange={this.handleChange}
-                     name='password'
-                     required
-                     id='password'
-                  />
-               </div>
-               <input type='submit' value='Login' />
-            </form>
-            <p>
-               Don't have an account yet? <Link to='/signup'>Signup</Link>
-            </p>
-         </div>
-      )
+      if (this.state.redirect) {
+         return <Navigate replace to='/' />
+      } else {
+         return (
+            <div>
+               Login
+               <form
+                  onSubmit={(e) => {
+                     e.preventDefault()
+                     this.handleSubmit()
+                  }}
+               >
+                  <div>
+                     <label htmlFor='username'>Enter username:</label>
+                     <TextField
+                        onChange={this.handleChange}
+                        name='username'
+                        required
+                        id='username'
+                     />
+                  </div>
+                  <div>
+                     <label htmlFor='password'>Enter password:</label>
+                     <TextField
+                        onChange={this.handleChange}
+                        name='password'
+                        required
+                        id='password'
+                     />
+                  </div>
+                  <input type='submit' value='Login' />
+               </form>
+               <p>
+                  Don't have an account yet? <Link to='/signup'>Signup</Link>
+               </p>
+            </div>
+         )
+      }
    }
 }
 

@@ -17,18 +17,22 @@ mongoose
    })
 
 //SCHEMAS////////////////////////////////////////
-const RecipeSchema = new mongoose.Schema({
-   recipe_id: Number,
-   name: String,
-})
+const RecipeSchema = new mongoose.Schema(
+   {
+      recipe_id: { type: String },
+      recipe_name: String,
+   },
+   { versionKey: false }
+)
 
 const UserSchema = new mongoose.Schema({
-   username: { type: String, unique: true, dropDups: true },
+   username: { type: String, unique: true },
    password: String,
    total_calories: Number,
    total_CHO: Number,
-   //   recipes: [RecipeSchema],
+   recipes: [RecipeSchema],
 })
+
 UserSchema.plugin(uniqueValidator)
 //Initiate models
 const Recipe = mongoose.model('Recipe', RecipeSchema)
@@ -36,6 +40,6 @@ const User = mongoose.model('User', UserSchema)
 
 module.exports = {
    mongoose,
-   Recipe,
    User,
+   Recipe,
 }
