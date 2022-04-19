@@ -1,6 +1,7 @@
 //interacts with server and the model
 
 const models = require('../models/models')
+
 module.exports = {
    user: {
       calculateKcalCarbReq: function (metrics) {
@@ -18,13 +19,23 @@ module.exports = {
          result.total_CHO = Math.floor((rmr * 0.5) / 4)
          return result
       },
-      save: function (userData) {
-         models.user.save(userData).then((err) => {
-            if (err) {
-               console.log('err:', err)
-            }
-         })
-         return userData
+      //todo update this function so it updates the user instead of creating new one
+      save: async function (userData) {
+         try {
+            let response = await models.user.save(userData)
+            return response
+         } catch (err) {
+            throw new Error('could not create account')
+         }
+         //  return userData
+      },
+      getUsername: async function (username) {
+         try {
+            let result = await models.user.get(username)
+            console.log('result:', result)
+         } catch (err) {
+            console.log('err:', err)
+         }
       },
    },
 }
