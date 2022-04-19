@@ -53,7 +53,7 @@ app.use(
    })
 )
 
-//todo add this to routes we want to check if user is logged in
+//todo add this to routes we want to check if user is logged in, adding before every route, and dealing with cookies
 const sessionChecker = (req, res, next) => {
    if (req.session.user && req.cookies.users_id) {
       res.redirect('/')
@@ -67,6 +67,7 @@ const sessionChecker = (req, res, next) => {
 //     username: string
 //     password: string
 // }
+
 //* handles requests to login
 app.post('/login', (req, res) => {
    let session = req.session
@@ -139,7 +140,7 @@ app.post('/:user/metrics', (req, res) => {
 //     query:
 //     meal: Breakfast, Lunch, or Dinner
 // }
-//handles request to api for recipes
+//* handles request to api for recipes
 app.get('/:user/recipes', (req, res) => {
    //todo handle user with unique id by searching for his total calories and carbs then sending to helper function
 
@@ -160,7 +161,7 @@ app.get('/:user/recipes', (req, res) => {
 //     recipe_id: Number,
 //     recipe_name: string;
 // }
-//! handles post requests to save recipes
+//* handles post requests to save recipes
 app.post('/:user/recipes', (req, res) => {
    console.log('posted to recipes')
    let session = req.session
@@ -188,10 +189,27 @@ app.post('/:user/recipes', (req, res) => {
    //then push and save new recipe model
 })
 
-//todo handles request for saved recipes of user
+async function getPromises(recipes) {
+   console.log('here in async func')
+   let promises = []
+   for (let i = 0; i < recipes.length; i++) {
+      promises.push(apiHelperFuncs.getSingleRecipe(recipes[i].recipe_id))
+   }
+   let currentPromise = Promise.all(promises).then((data) => {
+      return data
+   })
+   return currentPromise
+}
+//* handles request for saved recipes of user, getting data for each recipe from api
 app.get('/:user/mealplan', (req, res) => {
-   let session = req.session
-   console.log('session.id:', session.id)
+   let promises = []
+   let promise = controllers.user.getByUsername(req.session.username)
+   promise.then((user) => {
+      let result = getPromises(user.recipes)
+      result.then((arrayOfRecipes) => {
+         res.send(arrayOfRecipes)
+      })
+   })
 })
 
 app.listen(port, () => {

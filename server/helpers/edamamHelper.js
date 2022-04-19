@@ -19,4 +19,14 @@ module.exports = {
          console.log('err:', err)
       }
    },
+   getSingleRecipe: async function (recipe_id) {
+      console.log('recipe_id:', recipe_id)
+      let requestUrl = `https://api.edamam.com/api/recipes/v2/${recipe_id}?type=public&app_id=${config.app_id}&app_key=${config.app_key}&field=image&field=url&field=yield&field=ingredientLines&field=calories&field=mealType&field=dishType&field=totalNutrients`
+      try {
+         let result = await axios.get(requestUrl)
+         return result.data
+      } catch (err) {
+         console.log('err:')
+      }
+   },
 }

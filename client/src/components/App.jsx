@@ -21,10 +21,10 @@ class App extends Component {
 
    async handleSubmit() {
       let data = {
-         recipe_id: 'dfgggr23',
+         recipe_id: '4caf01683bf99ddc7c08c35774aae54c',
          recipe_name: 'sdfsd',
       }
-      let response = await axios.post('/test/recipes', data)
+      let response = await axios.get('/test/mealplan')
       console.log('response:', response)
    }
    render() {
