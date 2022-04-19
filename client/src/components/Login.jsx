@@ -40,20 +40,21 @@ class Login extends Component {
                   }}
                >
                   <div>
-                     <label htmlFor='username'>Enter username:</label>
                      <TextField
                         onChange={this.handleChange}
                         name='username'
                         required
                         id='username'
+                        label='Enter username'
                      />
                   </div>
                   <div>
-                     <label htmlFor='password'>Enter password:</label>
                      <TextField
                         onChange={this.handleChange}
                         name='password'
                         required
+                        label='Enter Password'
+                        type='password'
                         id='password'
                      />
                   </div>

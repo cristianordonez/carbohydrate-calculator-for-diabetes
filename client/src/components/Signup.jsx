@@ -66,26 +66,23 @@ class Signup extends Component {
                      />
                   </div>
                   <div>
-                     <label htmlFor='password'>Enter password:</label>
-
                      <TextField
-                        // defaultValue='hello world'
-
                         onChange={this.handleChange}
                         name='password'
+                        type='password'
                         required
                         id='password'
+                        label='Enter password:'
                      />
-                     <label htmlFor='confirmPassword'>Confirm password:</label>
-
                      <TextField
-                        // defaultValue='hello world'
                         error={this.state.error}
                         helperText={this.state.helperText}
                         onChange={this.handleChange}
                         name='confirmPassword'
                         required
+                        type='password'
                         id='confirmPassword'
+                        label='Confirm Password'
                      />
                   </div>
                   <input

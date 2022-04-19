@@ -127,10 +127,9 @@ app.get('/logout', (req, res) => {
 //  gender: string, 'Male', 'Female', 'Prefer not to answer'
 //  activityLevel: number between 1 to 2
 // }
-
 //* handles request for user metrics
-app.post('/:user/metrics', (req, res) => {
-   let userData = controllers.user.calculateKcalCarbReq(req.body.metrics)
+app.post('/metrics', (req, res) => {
+   let userData = controllers.user.calculateKcalCarbReq(req.body)
    //todo update userData so it also contains the username or userId from cookies or session
    //    controllers.user.save(userData)
    res.send(userData)
@@ -141,7 +140,7 @@ app.post('/:user/metrics', (req, res) => {
 //     meal: Breakfast, Lunch, or Dinner
 // }
 //* handles request to api for recipes
-app.get('/:user/recipes', (req, res) => {
+app.get('/recipes', (req, res) => {
    //todo handle user with unique id by searching for his total calories and carbs then sending to helper function
 
    let kcalPerDay = 1800
@@ -162,13 +161,9 @@ app.get('/:user/recipes', (req, res) => {
 //     recipe_name: string;
 // }
 //* handles post requests to save recipes
-app.post('/:user/recipes', (req, res) => {
-   console.log('posted to recipes')
+app.post('/recipes', (req, res) => {
    let session = req.session
-   console.log('session.id:', session.id)
-   console.log('session.username:', session.username)
    //then get username model from DB from req.sessions
-
    let promise = controllers.recipe.save(req.body)
    promise.then((createdRecipe) => {
       let promiseData = controllers.user.saveRecipeToUser(
@@ -186,11 +181,10 @@ app.post('/:user/recipes', (req, res) => {
       console.log('err:', err)
       res.status(401).send({ rtnCode: 1 })
    })
-   //then push and save new recipe model
 })
 
+//* helper func to get all recipes data stored in db from api, since api does not allow caching of certain elements
 async function getPromises(recipes) {
-   console.log('here in async func')
    let promises = []
    for (let i = 0; i < recipes.length; i++) {
       promises.push(apiHelperFuncs.getSingleRecipe(recipes[i].recipe_id))
@@ -200,8 +194,9 @@ async function getPromises(recipes) {
    })
    return currentPromise
 }
+
 //* handles request for saved recipes of user, getting data for each recipe from api
-app.get('/:user/mealplan', (req, res) => {
+app.get('/mealplan', (req, res) => {
    let promises = []
    let promise = controllers.user.getByUsername(req.session.username)
    promise.then((user) => {

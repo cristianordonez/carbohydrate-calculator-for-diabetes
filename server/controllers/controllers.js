@@ -5,9 +5,10 @@ const models = require('../models/models')
 module.exports = {
    user: {
       calculateKcalCarbReq: function (metrics) {
+         console.log('metrics:', metrics)
          let weightInKg = metrics.weight / 2.2
          let heightInCm = Math.floor(metrics.height * 2.54)
-         let additionalCalories = metrics.gender === 'Female' ? -161 : 5
+         let additionalCalories = metrics.gender === 'female' ? -161 : 5
          let rmr =
             10 * weightInKg +
             6.25 * heightInCm -
@@ -27,7 +28,6 @@ module.exports = {
          } catch (err) {
             throw new Error('could not create account')
          }
-         //  return userData
       },
       getByUsername: async function (username) {
          try {

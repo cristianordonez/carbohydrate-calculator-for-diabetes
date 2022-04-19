@@ -14,9 +14,9 @@ root.render(
       <Routes>
          <Route path='/' element={<App />}></Route>
          <Route path='/login' element={<Login />}></Route>
-         <Route path='signup' element={<Signup />}></Route>
-         <Route path='recipe' element={<Recipe />}></Route>
-         <Route path='mealplan' element={<MealPlan />}></Route>
+         <Route path='/signup' element={<Signup />}></Route>
+         <Route path='/recipe' element={<Recipe />}></Route>
+         <Route path='/mealplan' element={<MealPlan />}></Route>
       </Routes>
    </HashRouter>
 )
