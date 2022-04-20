@@ -160,11 +160,13 @@ app.get('/recipes', (req, res) => {
    //todo handle user with unique id by searching for his total calories and carbs then sending to helper function
    let kcalPerDay = 1800
    let carbsPerDay = 201
+   let session = req.session
+   console.log('sessions:', session)
    let response = apiHelperFuncs.getRecipes(
       req.body.query,
       req.body.meal,
-      kcalPerDay,
-      carbsPerDay
+      req.session.metrics.total_calories,
+      req.session.metrics.total_CHO
    )
    response.then((data) => {
       res.send(data)
