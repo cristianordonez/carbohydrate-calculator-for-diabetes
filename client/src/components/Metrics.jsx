@@ -13,7 +13,7 @@ class Metrics extends Component {
                <CircularProgress
                   sx={{ color: '#414361' }}
                   variant='determinate'
-                  size={400}
+                  size={500}
                   value={75}
                   thickness={1.0}
                />
@@ -28,11 +28,11 @@ class Metrics extends Component {
                   justifyContent='center'
                >
                   <Typography
-                     variant='caption'
+                     variant='h4'
                      component='div'
                      color='textSecondary'
                   >
-                     {this.props.total_CHO}
+                     {`${this.props.total_CHO} Daily Carbohydrates`}
                   </Typography>
                </Box>
             </Box>

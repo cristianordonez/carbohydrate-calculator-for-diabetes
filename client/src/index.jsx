@@ -1,7 +1,7 @@
 import React from 'react'
 import App from './components/App.jsx'
 import MealPlan from './components/MealPlan.jsx'
-import Recipe from './components/Recipe.jsx'
+import RecipeList from './components/RecipeList.jsx'
 import Login from './components/Login.jsx'
 import Logout from './components/Logout.jsx'
 import Signup from './components/Signup.jsx'
@@ -18,7 +18,7 @@ root.render(
          <Route path='/' element={<App />}></Route>
          <Route path='/login' element={<Login />}></Route>
          <Route path='/signup' element={<Signup />}></Route>
-         <Route path='/recipe' element={<Recipe />}></Route>
+         <Route path='/recipe' element={<RecipeList />}></Route>
          <Route path='/mealplan' element={<MealPlan />}></Route>
          <Route path='/logout' element={<Logout />}></Route>
       </Routes>

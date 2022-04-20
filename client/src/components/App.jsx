@@ -16,6 +16,7 @@ import {
    FormLabel,
    Radio,
    Button,
+   CssBaseline,
 } from '@mui/material'
 const axios = require('axios')
 class App extends Component {
@@ -99,6 +100,7 @@ class App extends Component {
 
       return (
          <div>
+            <CssBaseline />
             <Box
                component='form'
                sx={{

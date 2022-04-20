@@ -10,9 +10,9 @@ class Nav extends Component {
    render() {
       return (
          <AppBar
-            sx={{ backgroundColor: '#414361', color: 'white' }}
+            sx={{ zIndex: 1251, backgroundColor: '#414361', color: 'white' }}
             className='navbar'
-            position='static'
+            position='fixed'
          >
             <CssBaseline />
             <Toolbar>
