@@ -5,7 +5,6 @@ const models = require('../models/models')
 module.exports = {
    user: {
       calculateKcalCarbReq: function (metrics) {
-         console.log('metrics:', metrics)
          let weightInKg = metrics.weight / 2.2
          let heightInCm = Math.floor(metrics.height * 2.54)
          let additionalCalories = metrics.gender === 'female' ? -161 : 5
@@ -20,7 +19,6 @@ module.exports = {
          result.total_CHO = Math.floor((rmr * 0.5) / 4)
          return result
       },
-      //todo update this function so it updates the user instead of creating new one
       save: async function (userData) {
          try {
             let response = await models.user.save(userData)
@@ -41,6 +39,15 @@ module.exports = {
       saveRecipeToUser: async function (username, recipe) {
          try {
             let promise = models.user.update(username, recipe)
+            return promise
+         } catch (err) {
+            console.log('err:', err)
+         }
+      },
+      updateUserMetrics: async function (username, metrics) {
+         console.log('metrics:', metrics)
+         try {
+            let promise = await models.user.updateMetrics(username, metrics)
             return promise
          } catch (err) {
             console.log('err:', err)

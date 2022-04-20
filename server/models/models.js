@@ -33,6 +33,21 @@ module.exports = {
             }
          )
       },
+      updateMetrics: function (name, metrics) {
+         console.log('metrics:', metrics)
+         db.User.findOneAndUpdate(
+            { username: name },
+            metrics,
+            function (err, success) {
+               if (err) {
+                  console.log('err:', err)
+               } else {
+                  console.log('success:', success)
+                  return success
+               }
+            }
+         )
+      },
    },
    recipe: {
       save: async function (recipe) {

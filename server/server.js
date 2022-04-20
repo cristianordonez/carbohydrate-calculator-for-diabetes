@@ -70,6 +70,7 @@ const sessionChecker = (req, res, next) => {
 
 //* handles requests to login
 app.post('/login', (req, res) => {
+   //todo check if user has metrics saved on db, if so return it in session
    let session = req.session
    let isAuthenticated = authenticateUser(req.body.username, req.body.password)
    isAuthenticated.then((isValid) => {
@@ -129,10 +130,25 @@ app.get('/logout', (req, res) => {
 // }
 //* handles request for user metrics
 app.post('/metrics', (req, res) => {
+   console.log('req.session:', req.session)
    let userData = controllers.user.calculateKcalCarbReq(req.body)
-   //todo update userData so it also contains the username or userId from cookies or session
    //    controllers.user.save(userData)
+   controllers.user.updateUserMetrics(req.session.username, userData)
+   req.session.metrics = userData
    res.send(userData)
+})
+
+//todo handles getting metric data if it exists from database
+app.get('/metrics', (req, res) => {
+   let user = controllers.user.getByUsername(req.session.username)
+   console.log('user:', user)
+   user.then((userData) => {
+      console.log('userData:', userData)
+      let metrics = {}
+      metrics.total_CHO = userData.total_CHO
+      metrics.total_calories = userData.total_calories
+      res.send(metrics)
+   })
 })
 
 // data = {
@@ -142,7 +158,6 @@ app.post('/metrics', (req, res) => {
 //* handles request to api for recipes
 app.get('/recipes', (req, res) => {
    //todo handle user with unique id by searching for his total calories and carbs then sending to helper function
-
    let kcalPerDay = 1800
    let carbsPerDay = 201
    let response = apiHelperFuncs.getRecipes(
@@ -211,12 +226,12 @@ app.listen(port, () => {
    console.log(`Server listening on port ${port}`)
 })
 
-app.get('/', (req, res, next) => {
-   res.status(200).json({
-      status: 'success',
-      data: {
-         name: 'diabetes-app',
-         version: '0.1.0',
-      },
-   })
-})
+// app.get('/', (req, res, next) => {
+//    res.status(200).json({
+//       status: 'success',
+//       data: {
+//          name: 'diabetes-app',
+//          version: '0.1.0',
+//       },
+//    })
+// })

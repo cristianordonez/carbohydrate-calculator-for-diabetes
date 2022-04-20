@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Home from './Home.jsx'
+import Metrics from './Metrics.jsx'
 import MealPlan from './MealPlan.jsx'
 import Recipe from './Recipe.jsx'
 import Login from './Login.jsx'
@@ -18,7 +18,6 @@ import {
    Button,
 } from '@mui/material'
 const axios = require('axios')
-
 class App extends Component {
    constructor(props) {
       super(props)
@@ -28,33 +27,41 @@ class App extends Component {
          age: null,
          gender: '',
          activityLevel: null,
-         redirect: false,
+         total_CHO: null,
+         total_calories: null,
       }
       this.handleChange = this.handleChange.bind(this)
       this.handleSubmit = this.handleSubmit.bind(this)
    }
+
+   //page checks db if user has made metrics before, if so Metrics component is rendered and state is set
+   async componentDidMount() {
+      try {
+         let result = await axios.get('/metrics')
+
+         console.log('result:', result)
+         this.setState({
+            total_calories: result.data.total_calories,
+            total_CHO: result.data.total_CHO,
+         })
+      } catch (err) {
+         console.log('err:', err)
+      }
+   }
+
    handleChange(e) {
       this.setState({ [e.target.name]: e.target.value })
       console.log('this.state:', this.state)
    }
 
    async handleSubmit() {
-      console.log('this.state:', this.state)
-      //   let data = {
-      //      recipe_id: '4caf01683bf99ddc7c08c35774aae54c',
-      //      recipe_name: 'sdfsd',
-      //   }
       let response = await axios.post('/metrics', this.state)
-      console.log('response:', response)
+      this.setState({
+         total_CHO: response.data.total_CHO,
+         total_calories: response.data.total_calories,
+      })
    }
 
-   // data = {
-   //  height: inches,
-   //  weight: lbs,
-   //  age: number,
-   //  gender: string, 'Male', 'Female', 'Prefer not to answer'
-   //  activityLevel: number between 1 to 2
-   // }
    render() {
       const activityLevels = [
          {
@@ -92,7 +99,6 @@ class App extends Component {
 
       return (
          <div>
-            <Home id='edamam-badge' />
             <Box
                component='form'
                sx={{
@@ -143,12 +149,6 @@ class App extends Component {
                            value='other'
                            control={<Radio />}
                            label='Other'
-                        />
-                        <FormControlLabel
-                           value='disabled'
-                           disabled
-                           control={<Radio />}
-                           label='other'
                         />
                      </RadioGroup>
                   </Box>
@@ -210,6 +210,12 @@ class App extends Component {
                   </Button>
                </Paper>
             </Box>
+            {this.state.total_calories && this.state.total_CHO && (
+               <Metrics
+                  total_calories={this.state.total_calories}
+                  total_CHO={this.state.total_CHO}
+               />
+            )}
          </div>
       )
    }

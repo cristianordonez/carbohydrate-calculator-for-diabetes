@@ -1,0 +1,22 @@
+.navLinks {
+   display: 'flex';
+   justify-content: 'space-between';
+}
+
+.link {
+   margin-left: 25px;
+   text-decoration: none;
+}
+
+.link:hover {
+   text-decoration: underline;
+   color: #efcefa;
+}
+
+.logo {
+   flex-grow: '1';
+}
+
+a {
+   color: white;
+}
