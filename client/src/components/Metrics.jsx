@@ -1,19 +1,44 @@
 import React, { Component } from 'react'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Box, Typography } from '@mui/material'
 
-class Home extends Component {
+class Metrics extends Component {
    constructor(props) {
       super(props)
    }
    render() {
-      console.log('this.props in metrics component:', this.props)
       //this is edamame badge I need to include
       return (
          <div>
-            <CircularProgress variant='determinate' value={75} />
+            <Box position='relative' display='inline-flex'>
+               <CircularProgress
+                  sx={{ color: '#414361' }}
+                  variant='determinate'
+                  size={400}
+                  value={75}
+                  thickness={1.0}
+               />
+               <Box
+                  top={0}
+                  left={0}
+                  bottom={0}
+                  right={0}
+                  position='absolute'
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='center'
+               >
+                  <Typography
+                     variant='caption'
+                     component='div'
+                     color='textSecondary'
+                  >
+                     {this.props.total_CHO}
+                  </Typography>
+               </Box>
+            </Box>
          </div>
       )
    }
 }
 
-export default Home
+export default Metrics
