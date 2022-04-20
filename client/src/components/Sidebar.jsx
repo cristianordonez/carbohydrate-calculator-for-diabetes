@@ -22,9 +22,7 @@ class Sidebar extends Component {
    }
    handleSubmit(e) {
       e.preventDefault()
-      //todo figure out how to get all form data
       this.props.handleSearch()
-      // handleSearch()
    }
    handleChange(e) {
       let inputName = e.target.name

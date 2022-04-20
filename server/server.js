@@ -61,13 +61,14 @@ const sessionChecker = (req, res, next) => {
       next()
    }
 }
+//END MIDDLEWARE//////////////////////////////////////////
+
 //ROUTES//////////////////////////////////////////////
 
 // data = {
 //     username: string
 //     password: string
 // }
-
 //* handles requests to login
 app.post('/login', (req, res) => {
    //todo check if user has metrics saved on db, if so return it in session
@@ -158,15 +159,13 @@ app.get('/metrics', (req, res) => {
 //* handles request to api for recipes
 app.get('/recipes', (req, res) => {
    //todo handle user with unique id by searching for his total calories and carbs then sending to helper function
-   let kcalPerDay = 1800
-   let carbsPerDay = 201
+
    let session = req.session
-   console.log('sessions:', session)
    let response = apiHelperFuncs.getRecipes(
-      req.body.query,
-      req.body.meal,
-      req.session.metrics.total_calories,
-      req.session.metrics.total_CHO
+      req.query.query,
+      req.query.meal,
+      session.metrics.total_calories,
+      session.metrics.total_CHO
    )
    response.then((data) => {
       res.send(data)
@@ -181,6 +180,7 @@ app.get('/recipes', (req, res) => {
 app.post('/recipes', (req, res) => {
    let session = req.session
    //then get username model from DB from req.sessions
+   console.log('req in get recipes:', req.body)
    let promise = controllers.recipe.save(req.body)
    promise.then((createdRecipe) => {
       let promiseData = controllers.user.saveRecipeToUser(
@@ -223,6 +223,8 @@ app.get('/mealplan', (req, res) => {
       })
    })
 })
+
+//END ROUTES//////////////////////////////////////////////
 
 app.listen(port, () => {
    console.log(`Server listening on port ${port}`)

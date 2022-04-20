@@ -11,25 +11,22 @@ import {
 } from '@mui/material'
 
 //recipe id will be inside the recipe uri
-function Recipe({
-   getId,
+function Meal({
    imageUrl,
    name,
    total_calories,
    total_CHO,
    total_yield,
+   ingredientLines,
+   protein,
+   fat,
+   fiber,
    shareLink,
-   handleCardClick,
 }) {
-   console.log('shareLink:', shareLink)
-   const handleClick = () => {
-      let recipe_id = getId.slice(getId.indexOf('_') + 1, getId.length)
-      handleCardClick(recipe_id, name)
-   }
    return (
       <Card sx={{ maxWidth: 345, margin: 5 }}>
          <CssBaseline />
-         <CardActionArea onClick={handleClick}>
+         <CardActionArea>
             <CardMedia component='img' height='140' image={imageUrl} alt='' />
             <CardContent>
                <Typography gutterBottom variant='h6' component='div'>
@@ -64,4 +61,4 @@ function Recipe({
    )
 }
 
-export default Recipe
+export default Meal

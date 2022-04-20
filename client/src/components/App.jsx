@@ -100,7 +100,7 @@ class App extends Component {
       }
 
       return (
-         <div>
+         <div style={{ marginTop: 75 }}>
             <CssBaseline />
             <Box
                component='form'

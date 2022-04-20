@@ -47,7 +47,7 @@ class Signup extends Component {
          return <Navigate replace to='/login' />
       } else {
          return (
-            <div>
+            <div style={{ marginTop: 75 }}>
                SIGNUP
                <form
                   onSubmit={(e) => {
