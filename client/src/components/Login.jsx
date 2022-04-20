@@ -31,7 +31,7 @@ class Login extends Component {
          return <Navigate replace to='/' />
       } else {
          return (
-            <div>
+            <div style={{ marginTop: 65 }}>
                Login
                <form
                   onSubmit={(e) => {

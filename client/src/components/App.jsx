@@ -18,7 +18,8 @@ import {
    Button,
    CssBaseline,
 } from '@mui/material'
-const axios = require('axios')
+import axios from 'axios'
+
 class App extends Component {
    constructor(props) {
       super(props)
