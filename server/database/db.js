@@ -31,10 +31,7 @@ const UserSchema = new mongoose.Schema({
    password: String,
    total_calories: Number,
    total_CHO: Number,
-   breakfast: [RecipeSchema],
-   lunch: [RecipeSchema],
-   dinner: [RecipeSchema],
-   snack: [RecipeSchema],
+   recipes: [],
 });
 
 UserSchema.plugin(uniqueValidator);

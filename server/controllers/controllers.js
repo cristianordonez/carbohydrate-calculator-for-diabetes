@@ -31,7 +31,14 @@ module.exports = {
          try {
             let result = await models.user.get(username);
             return result;
-            console.log('result:', result);
+         } catch (err) {
+            throw new Error(err);
+         }
+      },
+      getUsernameRecipes: async function (username) {
+         try {
+            let result = await models.users.getRecipes(username);
+            return result;
          } catch (err) {
             throw new Error(err);
          }
@@ -45,7 +52,6 @@ module.exports = {
          }
       },
       updateUserMetrics: async function (username, metrics) {
-         console.log('metrics:', metrics);
          try {
             let promise = await models.user.updateMetrics(username, metrics);
             return promise;

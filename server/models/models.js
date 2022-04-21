@@ -20,29 +20,23 @@ module.exports = {
          }
       },
       update: function (name, recipe) {
-         console.log('recipe:', recipe);
-         const setter = {};
-         setter[recipe.meal_type] = recipe;
-         db.User.update(
+         db.User.findOneAndUpdate(
             { username: name },
-            { $push: setter },
+            { $push: { recipes: recipe } },
             function (err, success) {
                if (err) {
-                  console.log('err in models.update');
+                  throw new Error(err);
                } else {
-                  console.log('success in update models: ', success);
                   return success;
                }
             }
          );
       },
       updateMetrics: function (name, metrics) {
-         console.log('metrics:', metrics);
          db.User.update({ username: name }, metrics, function (err, success) {
             if (err) {
                console.log('err:', err);
             } else {
-               console.log('success:', success);
                return success;
             }
          });

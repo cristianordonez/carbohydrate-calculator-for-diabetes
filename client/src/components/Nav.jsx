@@ -27,7 +27,7 @@ function Nav(props) {
          <CssBaseline />
          <Toolbar>
             <Typography variant='h4' className='logo'>
-               <div id='edamam-badge'></div>
+               <div style={{ display: 'none' }} id='edamam-badge'></div>
             </Typography>
             <div className='navLinks'>
                <Link to='/home' className='link'>

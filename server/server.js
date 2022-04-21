@@ -188,7 +188,6 @@ app.get('/recipes', (req, res) => {
 app.post('/recipes', (req, res) => {
    let session = req.session;
    //then get username model from DB from req.sessions
-   console.log('req in get recipes:', req.body);
    let promise = controllers.recipe.save(req.body);
    promise.then((createdRecipe) => {
       let promiseData = controllers.user.saveRecipeToUser(
@@ -199,11 +198,10 @@ app.post('/recipes', (req, res) => {
          res.send('Successfully posted recipe!');
       });
       promiseData.catch((err) => {
-         console.log('err in promise data catch:', err);
+         throw new Error(err);
       });
    });
    promise.catch((err) => {
-      console.log('err:', err);
       res.status(401).send({ rtnCode: 1 });
    });
 });
@@ -227,7 +225,10 @@ app.get('/mealplan', (req, res) => {
    promise.then((user) => {
       let result = getPromises(user.recipes);
       result.then((arrayOfRecipes) => {
-         res.send(arrayOfRecipes);
+         let body = {};
+         body.username = req.session.username;
+         body.recipes = arrayOfRecipes;
+         res.send(body);
       });
    });
 });
