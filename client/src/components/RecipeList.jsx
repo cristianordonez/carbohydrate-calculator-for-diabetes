@@ -14,7 +14,8 @@ class RecipeList extends Component {
   }
 
   handleSearch() {
-    let promise = axios.get('/recipes', { params: this.state });
+    let options = { query: this.state.query, meal: this.state.meal };
+    let promise = axios.get('/recipes', { params: options });
     promise.then((result) => {
       this.setState({ recipes: result.data.hits });
     });
@@ -61,7 +62,7 @@ class RecipeList extends Component {
                   getId={recipe.recipe.uri}
                   meal_type={recipe.recipe.mealType[0]}
                   key={recipe.recipe.label}
-                  imageUrl={recipe.recipe.image}
+                  imageUrl={recipe.recipe.images.REGULAR.url}
                   name={recipe.recipe.label}
                   total_calories={recipe.recipe.calories}
                   total_CHO={recipe.recipe.totalNutrients.CHOCDF.quantity}
