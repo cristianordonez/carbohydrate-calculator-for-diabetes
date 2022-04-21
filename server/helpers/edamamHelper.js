@@ -1,6 +1,5 @@
 const config = require('../config/config').EDAMAME_API
 const axios = require('axios')
-console.log('config:', config)
 
 module.exports = {
    getRecipes: async function (query, meal, totalCal, totalCarb) {
@@ -16,17 +15,16 @@ module.exports = {
          let result = await axios.get(requestUrl)
          return result.data
       } catch (err) {
-         console.log('err:', err)
+         throw new Error(err)
       }
    },
    getSingleRecipe: async function (recipe_id) {
-      console.log('recipe_id:', recipe_id)
       let requestUrl = `https://api.edamam.com/api/recipes/v2/${recipe_id}?type=public&app_id=${config.app_id}&app_key=${config.app_key}&field=image&field=url&field=yield&field=ingredientLines&field=calories&field=mealType&field=dishType&field=totalNutrients&field=label&field=shareAs`
       try {
          let result = await axios.get(requestUrl)
          return result.data
       } catch (err) {
-         console.log('err:')
+         throw new Error(err)
       }
    },
 }

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { Link, Navigate } from 'react-router-dom'
-import TextField from '@mui/material/TextField'
-const axios = require('axios')
+import React, { Component } from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
+import axios from 'axios';
 class Signup extends Component {
    constructor(props) {
-      super(props)
+      super(props);
       this.state = {
          username: '',
          password: '',
@@ -12,47 +12,47 @@ class Signup extends Component {
          error: false,
          helperText: '',
          shouldRedirect: false,
-      }
-      this.handleChange = this.handleChange.bind(this)
-      this.handleSubmit = this.handleSubmit.bind(this)
+      };
+      this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
    }
    handleChange(e) {
-      this.setState({ [e.target.name]: e.target.value })
+      this.setState({ [e.target.name]: e.target.value });
    }
    handleSubmit() {
       //check if password and confirmed are equal
 
       if (this.state.password !== this.state.confirmPassword) {
-         this.setState({ error: true, helperText: 'Passwords do not match' })
+         this.setState({ error: true, helperText: 'Passwords do not match' });
       } else if (this.state.password.length < 5) {
-         this.setState({ error: true, helperText: 'Password is too short' })
+         this.setState({ error: true, helperText: 'Password is too short' });
       } else {
-         this.setState({ error: false })
+         this.setState({ error: false });
          axios
             .post('/signup', {
                username: this.state.username,
                password: this.state.password,
             })
             .then((response) => {
-               this.setState({ shouldRedirect: true })
+               this.setState({ shouldRedirect: true });
             })
             .catch((err) => {
-               console.log('err:', err)
-            })
+               console.log('err:', err);
+            });
       }
    }
 
    render() {
       if (this.state.shouldRedirect) {
-         return <Navigate replace to='/login' />
+         return <Navigate replace to='/' />;
       } else {
          return (
             <div style={{ marginTop: 75 }}>
                SIGNUP
                <form
                   onSubmit={(e) => {
-                     e.preventDefault()
-                     this.handleSubmit()
+                     e.preventDefault();
+                     this.handleSubmit();
                   }}
                >
                   <div>
@@ -95,9 +95,9 @@ class Signup extends Component {
                   Have an account already? <Link to='/login'>Login</Link>
                </p>
             </div>
-         )
+         );
       }
    }
 }
 
-export default Signup
+export default Signup;

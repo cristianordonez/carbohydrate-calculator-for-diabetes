@@ -1,42 +1,51 @@
-import React, { Component } from 'react'
-import './styles/Nav.css'
-import { AppBar, Typography, Toolbar, CssBaseline } from '@mui/material'
-import { Link } from 'react-router-dom'
-class Nav extends Component {
-   constructor(props) {
-      super(props)
-   }
+import React, { Component } from 'react';
+import './styles/Nav.css';
+import {
+   AppBar,
+   Typography,
+   Toolbar,
+   CssBaseline,
+   Button,
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-   render() {
-      return (
-         <AppBar
-            sx={{ zIndex: 1251, backgroundColor: '#414361', color: 'white' }}
-            className='navbar'
-            position='fixed'
-         >
-            <CssBaseline />
-            <Toolbar>
-               <Typography variant='h4' className='logo'>
-                  <div id={this.props.id}></div>
-               </Typography>
-               <div className='navLinks'>
-                  <Link to='/' className='link'>
-                     Home
-                  </Link>
-                  <Link to='/recipe' className='link'>
-                     Find Recipes
-                  </Link>
-                  <Link to='/mealplan' className='link'>
-                     Meal Plan
-                  </Link>
-                  <Link to='/logout' className='link'>
-                     Signout
-                  </Link>
-               </div>
-            </Toolbar>
-         </AppBar>
-      )
+function Nav(props) {
+   let navigate = useNavigate();
+
+   async function handleClick() {
+      await axios.get('/logout');
+      navigate('/login', { replace: true });
    }
+   return (
+      <AppBar
+         sx={{ zIndex: 1251, backgroundColor: '#414361', color: 'white' }}
+         className='navbar'
+         position='fixed'
+      >
+         <CssBaseline />
+         <Toolbar>
+            <Typography variant='h4' className='logo'>
+               <div id='edamam-badge'></div>
+            </Typography>
+            <div className='navLinks'>
+               <Link to='/home' className='link'>
+                  Home
+               </Link>
+               <Link to='/recipe' className='link'>
+                  Find Recipes
+               </Link>
+               <Link to='/mealplan' className='link'>
+                  Meal Plan
+               </Link>
+               <Button onClick={handleClick} className='link'>
+                  Logout
+               </Button>
+            </div>
+         </Toolbar>
+      </AppBar>
+   );
 }
 
-export default Nav
+export default Nav;

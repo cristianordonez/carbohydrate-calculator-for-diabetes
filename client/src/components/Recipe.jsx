@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
    Card,
    CardContent,
@@ -8,7 +8,7 @@ import {
    CardActionArea,
    CardActions,
    CssBaseline,
-} from '@mui/material'
+} from '@mui/material';
 
 //recipe id will be inside the recipe uri
 function Recipe({
@@ -20,12 +20,13 @@ function Recipe({
    total_yield,
    shareLink,
    handleCardClick,
+   meal_type,
 }) {
-   console.log('shareLink:', shareLink)
+   console.log('shareLink:', shareLink);
    const handleClick = () => {
-      let recipe_id = getId.slice(getId.indexOf('_') + 1, getId.length)
-      handleCardClick(recipe_id, name)
-   }
+      let recipe_id = getId.slice(getId.indexOf('_') + 1, getId.length);
+      handleCardClick(recipe_id, name, meal_type);
+   };
    return (
       <Card sx={{ maxWidth: 345, margin: 5 }}>
          <CssBaseline />
@@ -61,7 +62,7 @@ function Recipe({
             </Button>
          </CardActions>
       </Card>
-   )
+   );
 }
 
-export default Recipe
+export default Recipe;
