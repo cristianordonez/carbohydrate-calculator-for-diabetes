@@ -31,9 +31,12 @@ class Sidebar extends Component {
     this.props.handleChildChange(inputName, inputValue);
   }
   handleAutoComplete(option) {
-    let inputName = option.name;
-    let inputValue = option.label;
-    this.props.handleChildChange(inputName, inputValue);
+    if (option) {
+      let inputName = option.name;
+      let inputValue = option.label;
+
+      this.props.handleChildChange(inputName, inputValue);
+    }
   }
 
   render() {
@@ -60,10 +63,9 @@ class Sidebar extends Component {
             alignItems='center'
             sx={{ marginTop: 25, padding: 5 }}
           >
-            <Box sx={{ textAlign: 'center' }}>
+            <Box sx={{ textAlign: '' }}>
               <Typography variant='h6'>
-                Enter a food, and get recipes for meals that match your
-                carbohydrate range:
+                Search for recipes by ingredient and meal type:
               </Typography>
             </Box>
             <form>
@@ -99,7 +101,7 @@ class Sidebar extends Component {
                   <TextField {...params} name='meal' label='Select meal type' />
                 )}
               />
-              <Box display='flex' justifyContent='center'>
+              <Box display='flex'>
                 <label htmlFor='search-button'>
                   <Button
                     sx={{ marginTop: 2 }}
@@ -114,6 +116,10 @@ class Sidebar extends Component {
                 </label>
               </Box>
             </form>
+            <Typography sx={{ marginTop: 5 }} variant='subtitle1'>
+              No need to enter your determined carbohydrates or calories! All
+              recipes will be searched with your predetermined ranges.
+            </Typography>
           </Grid>
         </Drawer>
       </Box>

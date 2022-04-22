@@ -69,11 +69,7 @@ class Login extends Component {
               this.setState({ open: false });
             }}
           >
-            <Alert
-              onClose={this.state.handleClose}
-              severity='error'
-              sx={{ width: '100%' }}
-            >
+            <Alert severity='error' sx={{ width: '100%' }}>
               Incorrect Username or Password
             </Alert>
           </Snackbar>

@@ -173,7 +173,12 @@ app.get('/recipes', (req, res) => {
     session.metrics.total_CHO
   );
   response.then((data) => {
-    res.send(data);
+    console.log('data:', data);
+    console.log('req.session:', req.session);
+    let response = {};
+    response.metrics = req.session.metrics;
+    response.body = data;
+    res.send(response);
   });
 });
 
