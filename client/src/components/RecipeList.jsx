@@ -56,17 +56,16 @@ class RecipeList extends Component {
           />
           <Grid
             container
+            spacing={0.5}
             sx={{
               height: '100%',
               width: '100%',
-              paddingLeft: 40,
+              paddingLeft: 50,
               paddingTop: 25,
             }}
-            spacing={{ xs: 1, md: 2 }}
-            columns={{ xs: 2, sm: 4, md: 6 }}
           >
             {this.state.recipes.map((recipe, index) => (
-              <Grid sx={{ margin: 0 }} item xs={1} sm={2} md={3} key={index}>
+              <Grid sx={{ margin: 0, padding: 0 }} item key={index}>
                 <Recipe
                   getId={recipe.recipe.uri}
                   meal_type={recipe.recipe.mealType[0]}

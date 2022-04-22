@@ -3,6 +3,7 @@ import {
   TextField,
   Box,
   Drawer,
+  Grid,
   CssBaseline,
   Typography,
   InputAdornment,
@@ -52,11 +53,19 @@ class Sidebar extends Component {
           anchor='left'
           open={true}
         >
-          <Box sx={{ marginTop: 25 }}>
-            <Typography variant='h6'>
-              Enter a food, and get recipes for meals that match your
-              carbohydrate range:
-            </Typography>
+          <Grid
+            container
+            direction='column'
+            justifyContent='space-evenly'
+            alignItems='center'
+            sx={{ marginTop: 25, padding: 5 }}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant='h6'>
+                Enter a food, and get recipes for meals that match your
+                carbohydrate range:
+              </Typography>
+            </Box>
             <form>
               <TextField
                 fullWidth
@@ -90,20 +99,22 @@ class Sidebar extends Component {
                   <TextField {...params} name='meal' label='Select meal type' />
                 )}
               />
-
-              <label htmlFor='search-button'>
-                <Button
-                  onClick={this.handleSubmit}
-                  id='search-button'
-                  type='submit'
-                  variant='contained'
-                  component='span'
-                >
-                  Search Recipes
-                </Button>
-              </label>
+              <Box display='flex' justifyContent='center'>
+                <label htmlFor='search-button'>
+                  <Button
+                    sx={{ marginTop: 2 }}
+                    onClick={this.handleSubmit}
+                    id='search-button'
+                    type='submit'
+                    variant='contained'
+                    component='span'
+                  >
+                    Search Recipes
+                  </Button>
+                </label>
+              </Box>
             </form>
-          </Box>
+          </Grid>
         </Drawer>
       </Box>
     );
