@@ -3,101 +3,101 @@ import { Link, Navigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 class Signup extends Component {
-   constructor(props) {
-      super(props);
-      this.state = {
-         username: '',
-         password: '',
-         confirmPassword: '',
-         error: false,
-         helperText: '',
-         shouldRedirect: false,
-      };
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-   }
-   handleChange(e) {
-      this.setState({ [e.target.name]: e.target.value });
-   }
-   handleSubmit() {
-      //check if password and confirmed are equal
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      confirmPassword: '',
+      error: false,
+      helperText: '',
+      shouldRedirect: false,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+  handleSubmit() {
+    //check if password and confirmed are equal
 
-      if (this.state.password !== this.state.confirmPassword) {
-         this.setState({ error: true, helperText: 'Passwords do not match' });
-      } else if (this.state.password.length < 5) {
-         this.setState({ error: true, helperText: 'Password is too short' });
-      } else {
-         this.setState({ error: false });
-         axios
-            .post('/signup', {
-               username: this.state.username,
-               password: this.state.password,
-            })
-            .then((response) => {
-               this.setState({ shouldRedirect: true });
-            })
-            .catch((err) => {
-               console.log('err:', err);
-            });
-      }
-   }
+    if (this.state.password !== this.state.confirmPassword) {
+      this.setState({ error: true, helperText: 'Passwords do not match' });
+    } else if (this.state.password.length < 5) {
+      this.setState({ error: true, helperText: 'Password is too short' });
+    } else {
+      this.setState({ error: false });
+      axios
+        .post('/signup', {
+          username: this.state.username,
+          password: this.state.password,
+        })
+        .then((response) => {
+          this.setState({ shouldRedirect: true });
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+    }
+  }
 
-   render() {
-      if (this.state.shouldRedirect) {
-         return <Navigate replace to='/' />;
-      } else {
-         return (
-            <div style={{ marginTop: 75 }}>
-               SIGNUP
-               <form
-                  onSubmit={(e) => {
-                     e.preventDefault();
-                     this.handleSubmit();
-                  }}
-               >
-                  <div>
-                     <label htmlFor='username'>Enter username:</label>
-                     <input
-                        onChange={this.handleChange}
-                        type='text'
-                        name='username'
-                        required
-                        id='username'
-                     />
-                  </div>
-                  <div>
-                     <TextField
-                        onChange={this.handleChange}
-                        name='password'
-                        type='password'
-                        required
-                        id='password'
-                        label='Enter password:'
-                     />
-                     <TextField
-                        error={this.state.error}
-                        helperText={this.state.helperText}
-                        onChange={this.handleChange}
-                        name='confirmPassword'
-                        required
-                        type='password'
-                        id='confirmPassword'
-                        label='Confirm Password'
-                     />
-                  </div>
-                  <input
-                     type='submit'
-                     value='Create account'
-                     // onClick={this.handleSubmit}
-                  />
-               </form>
-               <p>
-                  Have an account already? <Link to='/login'>Login</Link>
-               </p>
+  render() {
+    if (this.state.shouldRedirect) {
+      return <Navigate replace to='/' />;
+    } else {
+      return (
+        <div style={{ marginTop: 75 }}>
+          SIGNUP
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              this.handleSubmit();
+            }}
+          >
+            <div>
+              <label htmlFor='username'>Enter username:</label>
+              <input
+                onChange={this.handleChange}
+                type='text'
+                name='username'
+                required
+                id='username'
+              />
             </div>
-         );
-      }
-   }
+            <div>
+              <TextField
+                onChange={this.handleChange}
+                name='password'
+                type='password'
+                required
+                id='password'
+                label='Enter password:'
+              />
+              <TextField
+                error={this.state.error}
+                helperText={this.state.helperText}
+                onChange={this.handleChange}
+                name='confirmPassword'
+                required
+                type='password'
+                id='confirmPassword'
+                label='Confirm Password'
+              />
+            </div>
+            <input
+              type='submit'
+              value='Create account'
+              // onClick={this.handleSubmit}
+            />
+          </form>
+          <p>
+            Have an account already? <Link to='/login'>Login</Link>
+          </p>
+        </div>
+      );
+    }
+  }
 }
 
 export default Signup;

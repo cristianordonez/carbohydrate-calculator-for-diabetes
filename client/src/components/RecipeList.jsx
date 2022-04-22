@@ -45,19 +45,28 @@ class RecipeList extends Component {
       { id: 4, label: 'Snack', name: 'meal' },
     ];
     //this component will show sidebar only at first, then will show recipe cards after a search
-    console.log('this.state.recipes:', this.state.recipes);
     if (this.state.recipes.length > 0) {
       return (
         <>
           <Nav />
-          <div>
-            <Sidebar
-              handleSearch={this.handleSearch}
-              handleChildChange={this.handleChildChange}
-              mealTypes={mealTypes}
-            />
-            <Grid container spacing={5}>
-              {this.state.recipes.map((recipe) => (
+          <Sidebar
+            handleSearch={this.handleSearch}
+            handleChildChange={this.handleChildChange}
+            mealTypes={mealTypes}
+          />
+          <Grid
+            container
+            sx={{
+              height: '100%',
+              width: '100%',
+              paddingLeft: 40,
+              paddingTop: 25,
+            }}
+            spacing={{ xs: 1, md: 2 }}
+            columns={{ xs: 2, sm: 4, md: 6 }}
+          >
+            {this.state.recipes.map((recipe, index) => (
+              <Grid sx={{ margin: 0 }} item xs={1} sm={2} md={3} key={index}>
                 <Recipe
                   getId={recipe.recipe.uri}
                   meal_type={recipe.recipe.mealType[0]}
@@ -70,9 +79,9 @@ class RecipeList extends Component {
                   shareLink={recipe.recipe.shareAs}
                   handleCardClick={this.handleCardClick}
                 />
-              ))}
-            </Grid>
-          </div>
+              </Grid>
+            ))}
+          </Grid>
         </>
       );
     } else {
