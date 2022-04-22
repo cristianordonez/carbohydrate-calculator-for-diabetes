@@ -21,6 +21,8 @@ import {
    Button,
    CssBaseline,
    Typography,
+   Snackbar,
+   Alert,
 } from '@mui/material';
 import axios from 'axios';
 
@@ -37,6 +39,7 @@ class App extends Component {
          total_calories: null,
          error: false,
          helperText: '',
+         open: false,
       };
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -69,6 +72,7 @@ class App extends Component {
             total_CHO: response.data.total_CHO,
             total_calories: response.data.total_calories,
             error: false,
+            open: true,
          });
       }
    }
@@ -248,6 +252,19 @@ class App extends Component {
                         </Button>
                      </Box>
                   </Grid>
+                  <Snackbar
+                     open={this.state.open}
+                     autoHideDuration={6000}
+                     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                     onClose={() => {
+                        this.setState({ open: false });
+                     }}
+                  >
+                     <Alert severity='success' sx={{ width: '100%' }}>
+                        Your custom calorie and carbohydrate ranges have been
+                        saved!
+                     </Alert>
+                  </Snackbar>
                </form>
                {this.state.total_calories && this.state.total_CHO && (
                   <Metrics
