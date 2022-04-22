@@ -16,7 +16,7 @@ function Nav(props) {
 
    async function handleClick() {
       await axios.get('/logout');
-      navigate('/login', { replace: true });
+      navigate('/', { replace: true });
    }
    return (
       <AppBar

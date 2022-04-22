@@ -72,13 +72,13 @@ class Sidebar extends Component {
                      <TextField
                         fullWidth
                         required
+                        variant='outlined'
                         onChange={(event, value) => {
                            this.handleChange(event);
                         }}
                         margin='normal'
                         label='Search for Recipes'
                         name='query'
-                        type='search'
                         InputProps={{
                            startAdornment: (
                               <InputAdornment position='start'>
@@ -99,7 +99,6 @@ class Sidebar extends Component {
                         onChange={(event, value) => {
                            this.handleAutoComplete(value);
                         }}
-                        //  style={{ width: '100%' }}
                         renderInput={(params) => (
                            <TextField
                               {...params}

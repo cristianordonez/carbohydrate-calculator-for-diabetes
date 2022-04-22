@@ -59,11 +59,26 @@ module.exports = {
             throw new Error(err);
          }
       },
+      deleteRecipeFromUser: async function (username, recipe_id) {
+         try {
+            await models.user.deleteRecipeFromUser(username, recipe_id);
+         } catch (err) {
+            throw new Error(err);
+         }
+      },
    },
    recipe: {
       save: async function (recipe) {
          try {
             let promise = await models.recipe.save(recipe);
+            return promise;
+         } catch (err) {
+            throw new Error(err);
+         }
+      },
+      delete: async function (recipe_id) {
+         try {
+            let promise = await models.recipe.delete(recipe_id);
             return promise;
          } catch (err) {
             throw new Error(err);
