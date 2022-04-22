@@ -118,7 +118,7 @@ class Sidebar extends Component {
             </form>
             <Typography sx={{ marginTop: 5 }} variant='subtitle1'>
               No need to enter your determined carbohydrates or calories! All
-              recipes will be searched with your predetermined ranges.
+              recipes will be automatically searched with your ranges.
             </Typography>
           </Grid>
         </Drawer>

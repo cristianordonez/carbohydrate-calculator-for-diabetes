@@ -96,7 +96,7 @@ class RecipeList extends Component {
                 Success! All recipes have between{' '}
                 {Math.round(this.state.total_calories / 7) * 2 - 150} -
                 {Math.round(this.state.total_calories / 7) * 2 + 150} Kcal per
-                recipe and {Math.round(this.state.total_CHO / 7) * 2 - 10}-
+                recipe and {Math.round(this.state.total_CHO / 7) * 2 - 10} -
                 {Math.round(this.state.total_CHO / 7) * 2 + 10} Carbs per recipe
               </Alert>
             </Snackbar>
