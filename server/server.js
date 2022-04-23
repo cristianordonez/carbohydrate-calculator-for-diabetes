@@ -182,20 +182,25 @@ app.get('/metrics', (req, res) => {
 //* handles request to api for recipes
 app.get('/recipes', (req, res) => {
    let session = req.session;
-   let response = apiHelperFuncs.getRecipes(
-      req.query.query,
-      req.query.meal,
-      session.metrics.total_calories,
-      session.metrics.total_CHO
-   );
-   response.then((data) => {
-      console.log('data:', data);
-      let response = {};
-      response.metrics = session.metrics;
-      response.calPerMeal = data.calPerMeal;
-      response.carbsPerMeal = data.carbsPerMeal;
-      response.body = data.data.hits;
-      res.send(response);
+   console.log('req.session:', req.session);
+   let currentUser = controllers.user.getByUsername(req.session.username);
+   currentUser.then((user) => {
+      console.log('user:', user);
+      let response = apiHelperFuncs.getRecipes(
+         req.query.query,
+         req.query.meal,
+         user.total_calories,
+         user.total_CHO
+      );
+      response.then((data) => {
+         console.log('data:', data);
+         let response = {};
+         response.metrics = session.metrics;
+         response.calPerMeal = data.calPerMeal;
+         response.carbsPerMeal = data.carbsPerMeal;
+         response.body = data.data.hits;
+         res.send(response);
+      });
    });
 });
 

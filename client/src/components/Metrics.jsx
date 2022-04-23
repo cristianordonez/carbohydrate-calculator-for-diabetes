@@ -22,17 +22,22 @@ class Metrics extends Component {
                   direction='column'
                   container
                > */}
-            <Box display='flex' justifyContent='space-evenly'>
-               <Typography variant='h6' align='left'>
+            <Box display='flex' justifyContent='center'>
+               <Typography variant='h6' align='center'>
                   Total Calories Per Day:
                </Typography>
-               <Typography variant='h5'>{this.props.total_calories}</Typography>
+               <Typography sx={{ color: '#D16666' }} variant='h6'>
+                  {this.props.total_calories}
+               </Typography>
             </Box>
-            <Box display='flex' justifyContent='space-evenly'>
-               <Typography variant='h6' align='left'>
+            <Box display='flex' justifyContent='center'>
+               <Typography variant='h6' align='right'>
                   Total Carbohydrates Per Day:
                </Typography>
-               <Typography variant='h5'>{this.props.total_CHO}</Typography>
+               <Typography sx={{ color: '#D16666' }} variant='h6'>
+                  {' '}
+                  {this.props.total_CHO}
+               </Typography>
             </Box>
             <MetricsMeal
                icon='Breakfast'
