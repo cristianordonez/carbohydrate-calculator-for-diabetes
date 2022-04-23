@@ -15,7 +15,7 @@ function Nav(props) {
    let navigate = useNavigate();
 
    async function handleClick() {
-      await axios.get('/logout');
+      await axios.get('http://localhost:8080/api/logout');
       navigate('/', { replace: true });
    }
    return (

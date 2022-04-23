@@ -67,7 +67,10 @@ class App extends Component {
          this.setState({ error: true, helperText: 'Please enter an option' });
          return;
       } else {
-         let response = await axios.post('/metrics', this.state);
+         let response = await axios.post(
+            'http://localhost:8080/api/metrics',
+            this.state
+         );
          this.setState({
             total_CHO: response.data.total_CHO,
             total_calories: response.data.total_calories,

@@ -15,7 +15,7 @@ module.exports = {
       allowedHosts: 'auto',
       proxy: {
          '/api': {
-            target: 'http://localhost:1128',
+            target: 'http://localhost:8080',
             pathRewrite: { '^/api': '' },
          },
       },

@@ -31,7 +31,9 @@ class RecipeList extends Component {
    handleSearch() {
       this.setState({ isLoading: true });
       let options = { query: this.state.query, meal: this.state.meal };
-      let promise = axios.get('/recipes', { params: options });
+      let promise = axios.get('http://localhost:8080/api/recipes', {
+         params: options,
+      });
       promise.then((result) => {
          let data = result.data;
          console.log('data:', data);
@@ -55,7 +57,7 @@ class RecipeList extends Component {
          recipe_name: name,
          meal_type: this.state.meal.toLowerCase(),
       };
-      let promise = axios.post('/recipes', options);
+      let promise = axios.post('http://localhost:8080/api/recipes', options);
       promise.then((response) => {
          console.log('response:', response);
       });
