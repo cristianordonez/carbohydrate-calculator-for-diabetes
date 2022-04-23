@@ -34,5 +34,6 @@ bower_components/
 .flooignore
 
 config/
+
 # Prettier Config
-prettierrc.json
+.prettierrc

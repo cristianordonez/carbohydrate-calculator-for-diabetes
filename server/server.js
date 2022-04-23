@@ -10,6 +10,7 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const config = require('./config/config');
 const MongoStore = require('connect-mongo');
+
 //// const webpackDevMiddleware = require('webpack-dev-middleware');
 
 //webpack config for express live reload
@@ -34,6 +35,13 @@ app.use(cors(corsOptions));
 ////       publicPath: webpackConfig.output.publicPath,
 ////    })
 //// );
+
+const errorController = (err, req, res, next) => {
+   console.log('err in error controller middleware:', err);
+   res.status(500).send('error has occured in cristians server');
+};
+//* error handler middleware
+app.use(errorController);
 
 const oneDay = 1000 * 60 * 60 * 24;
 
@@ -179,10 +187,8 @@ app.get('/metrics', (req, res) => {
 //* handles request to api for recipes
 app.get('/recipes', (req, res) => {
    let session = req.session;
-   console.log('req.session:', req.session);
    let currentUser = controllers.user.getByUsername(req.session.username);
    currentUser.then((user) => {
-      console.log('user:', user);
       let response = apiHelperFuncs.getRecipes(
          req.query.query,
          req.query.meal,
@@ -190,7 +196,6 @@ app.get('/recipes', (req, res) => {
          user.total_CHO
       );
       response.then((data) => {
-         console.log('data:', data);
          let response = {};
          response.metrics = session.metrics;
          response.calPerMeal = data.calPerMeal;
@@ -208,22 +213,35 @@ app.get('/recipes', (req, res) => {
 //* handles post requests to save recipes
 app.post('/recipes', (req, res) => {
    let session = req.session;
-   //then get username model from DB from req.sessions
+   //save recipe to recipe collection, then save it to specific user
    let promise = controllers.recipe.save(req.body);
    promise.then((createdRecipe) => {
-      let promiseData = controllers.user.saveRecipeToUser(
-         session.username,
-         createdRecipe
-      );
-      promiseData.then((success) => {
-         res.send('Successfully posted recipe!');
-      });
-      promiseData.catch((err) => {
-         throw new Error(err);
-      });
+      //check if recipe was unable to be saved to db due to duplicate error
+      if (!createdRecipe.recipe_id) {
+         res.status(401).json(createdRecipe);
+      } else {
+         //get username from req.session
+         let promiseData = controllers.user.saveRecipeToUser(
+            session.username,
+            createdRecipe
+         );
+         promiseData.then((success) => {
+            console.log('success:', success);
+            //handles when duplicate recipe is found in database
+            //// if (!success) {
+            //   // res.status(409).send('Recipe has already been saved!');
+            //// } else {
+            res.send('Successfully posted recipe!');
+         });
+         //catch additional errors when saving recipe to recipe DB
+         promiseData.catch((err) => {
+            console.error('err:', err);
+         });
+      }
    });
+   //catches all errors
    promise.catch((err) => {
-      res.status(401).send({ rtnCode: 1 });
+      res.status(401).json(err);
    });
 });
 
@@ -239,7 +257,7 @@ async function getPromises(recipes) {
    return currentPromise;
 }
 
-//* handles request for saved recipes of user, getting data for each recipe from api
+//* handles request for getting saved recipes of user, getting data for each recipe from api
 app.get('/mealplan', (req, res) => {
    let promises = [];
    let promise = controllers.user.getByUsername(req.session.username);
@@ -273,6 +291,11 @@ app.post('/mealplan', (req, res) => {
    //then send response back to client
 });
 //END ROUTES//////////////////////////////////////////////
+
+app.use((err, req, res, next) => {
+   console.log('err:', err);
+   res.status(500).send('Something broke!');
+});
 
 app.listen(port, () => {
    console.log(`Server listening on port ${port}`);

@@ -20,6 +20,7 @@ module.exports = {
          }
       },
       update: function (name, recipe) {
+         console.log('recipe in update user models:', recipe);
          db.User.findOneAndUpdate(
             { username: name },
             { $push: { recipes: recipe } },
@@ -62,7 +63,8 @@ module.exports = {
             let response = await db.Recipe.create(recipe);
             return response;
          } catch (err) {
-            throw new Error(err);
+            // throw new Error(err);
+            return err;
          }
       },
       delete: function (id) {

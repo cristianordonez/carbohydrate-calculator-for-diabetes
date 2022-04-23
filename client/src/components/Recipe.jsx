@@ -28,6 +28,7 @@ function Recipe({
    meal_type,
    handleChildSave,
    isSaved,
+   hasSaveError,
 }) {
    const handleClick = () => {
       handleSave();
@@ -37,10 +38,26 @@ function Recipe({
    const handleSave = () => {
       handleChildSave();
    };
+   let message = hasSaveError
+      ? 'there was error saving'
+      : 'Message has been saved! View saved recipes ';
+   let alertType = hasSaveError ? 'error' : 'info';
    return (
       <>
          <CssBaseline />
          <Card sx={{ maxWidth: 345, minWidth: 150, margin: 0, maxHeight: 450 }}>
+            <Snackbar
+               open={isSaved}
+               autoHideDuration={5000}
+               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+               onClose={() => {
+                  handleSave();
+               }}
+            >
+               <Alert severity={alertType} sx={{ width: '100%' }}>
+                  {message}
+               </Alert>
+            </Snackbar>
             <Paper elevation={24} sx={{ width: '100%', height: '100%' }}>
                <Tooltip title='Click to save recipe' placement='top-end' arrow>
                   <CardActionArea onClick={handleClick}>
@@ -88,18 +105,6 @@ function Recipe({
                            </Typography>
                         </Grid>
                      </CardContent>
-                     <Snackbar
-                        open={isSaved}
-                        autoHideDuration={4000}
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                        onClose={() => {
-                           handleSave();
-                        }}
-                     >
-                        <Alert severity='info' sx={{ width: '100%' }}>
-                           Recipe saved! Go to Your Meals to view saved recipes.
-                        </Alert>
-                     </Snackbar>
                   </CardActionArea>
                </Tooltip>
                <CardActions>

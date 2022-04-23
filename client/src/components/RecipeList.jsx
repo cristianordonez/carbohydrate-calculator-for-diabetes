@@ -23,6 +23,7 @@ class RecipeList extends Component {
          open: false,
          isLoading: false,
          childSaved: false,
+         hasError: false,
       };
       this.handleSearch = this.handleSearch.bind(this);
       this.handleChildChange = this.handleChildChange.bind(this);
@@ -30,6 +31,7 @@ class RecipeList extends Component {
       this.handleChildSave = this.handleChildSave.bind(this);
    }
 
+   //* handles sending request to server to fetch recipes from db
    handleSearch() {
       this.setState({ isLoading: true });
       let options = { query: this.state.query, meal: this.state.meal };
@@ -38,7 +40,6 @@ class RecipeList extends Component {
       });
       promise.then((result) => {
          let data = result.data;
-         console.log('data:', data);
          this.setState({
             recipes: data.body,
             calPerMeal: data.calPerMeal,
@@ -50,13 +51,17 @@ class RecipeList extends Component {
       });
    }
 
+   //* handles opening alert when card is clicked to be saved (refactor to include in handleChildChage)
    handleChildSave() {
       this.setState({ childSaved: !this.state.childSaved });
    }
+
+   //* handles getting values from textfields
    handleChildChange(name, value) {
       this.setState({ [name]: value });
    }
-   //todo allow user to only save one recipe per meal type
+
+   //* handles saving recipes to database
    handleCardClick(id, name, type) {
       let options = {
          recipe_id: id,
@@ -65,7 +70,14 @@ class RecipeList extends Component {
       };
       let promise = axios.post('http://localhost:8080/api/recipes', options);
       promise.then((response) => {
-         console.log('response:', response);
+         console.log('response after axios post:', response);
+         //handle changing alert message for cards after they are saved successfully
+      });
+      promise.catch((err) => {
+         console.log('made it to catch block');
+         //handles changing alert message for cards when there is error saving them to db
+         // console.log('err in promise.catch after axios post:', err);
+         this.setState({ hasError: true });
       });
    }
 
@@ -130,6 +142,7 @@ class RecipeList extends Component {
                      <Grid sx={{ margin: 0, padding: 0 }} item key={index}>
                         <Recipe
                            getId={recipe.recipe.uri}
+                           hasSaveError={this.state.hasError}
                            meal_type={recipe.recipe.mealType[0]}
                            key={recipe.recipe.label}
                            imageUrl={recipe.recipe.images.REGULAR.url}

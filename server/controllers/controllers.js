@@ -48,7 +48,7 @@ module.exports = {
             let promise = await models.user.update(username, recipe);
             return promise;
          } catch (err) {
-            throw new Error(err);
+            return err;
          }
       },
       updateUserMetrics: async function (username, metrics) {
@@ -73,7 +73,8 @@ module.exports = {
             let promise = await models.recipe.save(recipe);
             return promise;
          } catch (err) {
-            throw new Error(err);
+            // throw new Exception(err);
+            console.error(err);
          }
       },
       delete: async function (recipe_id) {
@@ -81,7 +82,9 @@ module.exports = {
             let promise = await models.recipe.delete(recipe_id);
             return promise;
          } catch (err) {
-            throw new Error(err);
+            // throw new Error(err);
+            // return err;
+            console.error(err);
          }
       },
    },

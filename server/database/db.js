@@ -19,7 +19,7 @@ mongoose
 //SCHEMAS////////////////////////////////////////
 const RecipeSchema = new mongoose.Schema(
    {
-      recipe_id: { type: String },
+      recipe_id: { type: String, unique: true },
       recipe_name: String,
       meal_type: String,
    },
@@ -35,6 +35,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.plugin(uniqueValidator);
+RecipeSchema.plugin(uniqueValidator);
 //Initiate models
 const Recipe = mongoose.model('Recipe', RecipeSchema);
 const User = mongoose.model('User', UserSchema);
