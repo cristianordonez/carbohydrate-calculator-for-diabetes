@@ -113,6 +113,7 @@ class Sidebar extends Component {
                         sx={{ marginTop: 2 }}
                         id='search-button'
                         type='submit'
+                        fullWidth
                         variant='contained'
                      >
                         Search Recipes

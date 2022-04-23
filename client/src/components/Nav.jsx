@@ -34,7 +34,11 @@ function Nav(props) {
       justifyContent: 'flexEnd',
    };
    return (
-      <AppBar className='navbar' position='fixed'>
+      <AppBar
+         className='navbar'
+         position='absolute'
+         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
          {' '}
          <div style={{ display: 'none' }} id='edamam-badge'></div>
          <Paper elevation={1} style={paperStyle}>
