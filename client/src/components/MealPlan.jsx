@@ -18,9 +18,10 @@ class MealPlan extends Component {
    }
 
    async componentDidMount() {
-      let promise = await axios.get('http://localhost:8080/api/mealplan');
+      let promise = await axios.get('api/mealplan');
       this.setState({ user: promise.data.username });
       promise.data.recipes.forEach((recipe) => {
+         console.log('recipe:', recipe);
          if (
             recipe.recipe.mealType[0].includes('dinner') &&
             recipe.recipe.dishType[0] === 'main course'

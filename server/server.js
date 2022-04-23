@@ -257,6 +257,7 @@ async function getPromises(recipes) {
    return currentPromise;
 }
 
+//TODO fix error with recipes being rendered in wrong section of page on client side(try saving recipes in their own object before calling api for additional recipe info)
 //* handles request for getting saved recipes of user, getting data for each recipe from api
 app.get('/mealplan', (req, res) => {
    let promises = [];
@@ -291,11 +292,6 @@ app.post('/mealplan', (req, res) => {
    //then send response back to client
 });
 //END ROUTES//////////////////////////////////////////////
-
-app.use((err, req, res, next) => {
-   console.log('err:', err);
-   res.status(500).send('Something broke!');
-});
 
 app.listen(port, () => {
    console.log(`Server listening on port ${port}`);

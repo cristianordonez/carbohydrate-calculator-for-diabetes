@@ -39,8 +39,8 @@ function Recipe({
       handleChildSave();
    };
    let message = hasSaveError
-      ? 'there was error saving'
-      : 'Message has been saved! View saved recipes ';
+      ? 'Error: Recipe is already saved. View your recipes in our Your Meals Page.'
+      : 'Message has been saved! View saved recipes in our Your Meals Page.';
    let alertType = hasSaveError ? 'error' : 'info';
    return (
       <>

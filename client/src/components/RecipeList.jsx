@@ -70,13 +70,10 @@ class RecipeList extends Component {
       };
       let promise = axios.post('http://localhost:8080/api/recipes', options);
       promise.then((response) => {
-         console.log('response after axios post:', response);
-         //handle changing alert message for cards after they are saved successfully
+         console.log('recipe has been saved to db');
       });
+      //if error, change state to display different message alert
       promise.catch((err) => {
-         console.log('made it to catch block');
-         //handles changing alert message for cards when there is error saving them to db
-         // console.log('err in promise.catch after axios post:', err);
          this.setState({ hasError: true });
       });
    }
@@ -110,7 +107,7 @@ class RecipeList extends Component {
                         this.setState({ open: false });
                      }}
                      autoHideDuration={10000}
-                     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                      onClose={() => {
                         this.setState({ open: false });
                      }}
