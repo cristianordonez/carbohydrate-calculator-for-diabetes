@@ -6,10 +6,16 @@ import {
    Toolbar,
    CssBaseline,
    Button,
+   Avatar,
+   Paper,
+   Box,
+   Tooltip,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import FoodBankIcon from '@mui/icons-material/FoodBank';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Nav(props) {
    let navigate = useNavigate();
@@ -18,32 +24,48 @@ function Nav(props) {
       await axios.get('http://localhost:8080/api/logout');
       navigate('/', { replace: true });
    }
+   const paperStyle = {
+      zIndex: 1251,
+      backgroundColor: '#3E82FF',
+      color: 'white',
+   };
+   const navLinksStyle = {
+      display: 'flex',
+      justifyContent: 'flexEnd',
+   };
    return (
-      <AppBar
-         sx={{ zIndex: 1251, backgroundColor: '#414361', color: 'white' }}
-         className='navbar'
-         position='fixed'
-      >
-         <CssBaseline />
-         <Toolbar>
-            <Typography variant='h4' className='logo'>
-               <div style={{ display: 'none' }} id='edamam-badge'></div>
-            </Typography>
-            <div className='navLinks'>
+      <AppBar className='navbar' position='fixed'>
+         {' '}
+         <div style={{ display: 'none' }} id='edamam-badge'></div>
+         <Paper elevation={1} style={paperStyle}>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+               <Avatar sx={{ bgcolor: '#1D2D44' }}>
+                  <FoodBankIcon />
+               </Avatar>
                <Link to='/home' className='link'>
-                  Home
+                  <Typography variant='h6'>Home</Typography>
                </Link>
+
                <Link to='/recipe' className='link'>
-                  Find Recipes
+                  <Typography variant='h6'>Find Recipes</Typography>
                </Link>
+
                <Link to='/mealplan' className='link'>
-                  Meal Plan
+                  <Typography variant='h6'>Your Meals</Typography>
                </Link>
-               <Button onClick={handleClick} className='link'>
-                  Logout
-               </Button>
-            </div>
-         </Toolbar>
+
+               <Tooltip title='Logout' placement='bottom-end'>
+                  <Button
+                     variant='outlined'
+                     color='logout'
+                     onClick={handleClick}
+                  >
+                     {/* <Typography variant='h6'>Logout</Typography> */}
+                     <LogoutIcon />
+                  </Button>
+               </Tooltip>
+            </Toolbar>
+         </Paper>
       </AppBar>
    );
 }

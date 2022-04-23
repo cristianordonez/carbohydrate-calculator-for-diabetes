@@ -8,10 +8,16 @@ import Nav from './components/Nav.jsx';
 import * as ReactDOMClient from 'react-dom/client';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+const { palette } = createTheme();
+const { augmentColor } = palette;
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
 
 const theme = createTheme({
    typography: {
       fontFamily: ['Plus Jakarta Sans', 'sans-serif'].join(','),
+   },
+   palette: {
+      logout: createColor('#white'),
    },
 });
 

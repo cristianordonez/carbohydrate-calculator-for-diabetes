@@ -118,165 +118,175 @@ class App extends Component {
       return (
          <>
             <Nav />
-            <CssBaseline />
-            <Grid
-               container
-               direction='row'
+            <Box
+               display='flex'
                justifyContent='space-evenly'
-               alignItems='center'
-               spacing={0.5}
-               sx={{ marginTop: 15 }}
+               sx={{ marginTop: 15, width: '100vw' }}
             >
-               <Grid sx={{ paddingLeft: 35 }} item>
+               <Box
+                  display='flex-column'
+                  sx={{ width: '40vw', margin: '0 auto' }}
+               >
                   <Typography variant='h6'>
                      Enter metrics to find out recommended calories and
                      carbohydrates per meal
                   </Typography>
-               </Grid>
-               <form onSubmit={this.handleSubmit}>
-                  <Grid
-                     item
-                     sx={{
-                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                     }}
-                     noValidate
-                     autoComplete='off'
-                     justifyContent='center'
-                     alignItems='center'
-                  >
-                     <Autocomplete
-                        disablePortal
-                        type='number'
-                        onChange={(event, value) => {
-                           this.setState({ age: value.id });
-                        }}
-                        required
-                        name='age'
-                        isOptionEqualToValue={(option, value) =>
-                           option.id === value.id
-                        }
-                        options={ages}
-                        renderInput={(params) => (
-                           <TextField {...params} required label='Enter Age' />
-                        )}
-                     />
-                     <FormControl error={this.state.error}>
-                        <FormLabel id='demo-row-radio-buttons-group-label'>
-                           Gender
-                        </FormLabel>
-                        <RadioGroup
-                           row
-                           aria-labelledby='demo-row-radio-buttons-group-label'
-                           name='gender'
-                           onChange={this.handleChange}
-                        >
-                           <FormControlLabel
-                              value='female'
-                              control={<Radio />}
-                              label='Female'
-                           />
-                           <FormControlLabel
-                              value='male'
-                              control={<Radio />}
-                              label='Male'
-                           />
-                           <FormControlLabel
-                              value='other'
-                              control={<Radio />}
-                              label='Other'
-                           />
-                        </RadioGroup>
-                        <FormHelperText>{this.state.helperText}</FormHelperText>
-                     </FormControl>
 
-                     <Autocomplete
-                        disablePortal
-                        type='number'
-                        onChange={(event, value) => {
-                           this.setState({ height: value.id });
-                        }}
-                        required
-                        name='height'
-                        isOptionEqualToValue={(option, value) =>
-                           option.id === value.id
-                        }
-                        options={heights}
-                        renderInput={(params) => (
-                           <TextField
-                              {...params}
-                              required
-                              label='Enter Height (inches)'
-                           />
-                        )}
-                     />
+                  <form onSubmit={this.handleSubmit}>
+                     <Box
+                        display='flex-column'
+                        noValidate
+                        autoComplete='off'
+                        justifyContent='center'
+                        alignItems='center'
+                     >
+                        <Autocomplete
+                           disablePortal
+                           type='number'
+                           onChange={(event, value) => {
+                              this.setState({ age: value.id });
+                           }}
+                           required
+                           name='age'
+                           isOptionEqualToValue={(option, value) =>
+                              option.id === value.id
+                           }
+                           options={ages}
+                           renderInput={(params) => (
+                              <TextField
+                                 {...params}
+                                 required
+                                 label='Enter Age'
+                              />
+                           )}
+                        />
+                        <FormControl error={this.state.error}>
+                           <FormLabel id='demo-row-radio-buttons-group-label'>
+                              Gender
+                           </FormLabel>
+                           <RadioGroup
+                              row
+                              aria-labelledby='demo-row-radio-buttons-group-label'
+                              name='gender'
+                              onChange={this.handleChange}
+                           >
+                              <FormControlLabel
+                                 value='female'
+                                 control={<Radio />}
+                                 label='Female'
+                              />
+                              <FormControlLabel
+                                 value='male'
+                                 control={<Radio />}
+                                 label='Male'
+                              />
+                              <FormControlLabel
+                                 value='other'
+                                 control={<Radio />}
+                                 label='Other'
+                              />
+                           </RadioGroup>
+                           <FormHelperText>
+                              {this.state.helperText}
+                           </FormHelperText>
+                        </FormControl>
 
-                     <Autocomplete
-                        disablePortal
-                        type='number'
-                        onChange={(event, value) => {
-                           this.setState({ weight: value.id });
-                        }}
-                        required
-                        name='weight'
-                        isOptionEqualToValue={(option, value) =>
-                           option.id === value.id
-                        }
-                        options={weights}
-                        renderInput={(params) => (
-                           <TextField
-                              {...params}
-                              required
-                              label='Enter Weight (lbs)'
-                           />
-                        )}
-                     />
-                     <Autocomplete
-                        disablePortal
-                        onChange={(event, value) => {
-                           this.setState({ activityLevel: value.id });
-                        }}
-                        required
-                        isOptionEqualToValue={(option, value) =>
-                           option.id === value.id
-                        }
-                        name='activityLevel'
-                        options={activityLevels}
-                        //  style={{ width: '100%' }}
-                        renderInput={(params) => (
-                           <TextField
-                              {...params}
-                              label='Enter Activity Level'
-                           />
-                        )}
-                     />
-                     <Box display='flex' justifyContent='center'>
-                        <Button type='submit' variant='outlined'>
-                           Submit
-                        </Button>
+                        <Autocomplete
+                           disablePortal
+                           type='number'
+                           onChange={(event, value) => {
+                              this.setState({ height: value.id });
+                           }}
+                           required
+                           name='height'
+                           isOptionEqualToValue={(option, value) =>
+                              option.id === value.id
+                           }
+                           options={heights}
+                           renderInput={(params) => (
+                              <TextField
+                                 {...params}
+                                 required
+                                 label='Enter Height (inches)'
+                              />
+                           )}
+                        />
+
+                        <Autocomplete
+                           disablePortal
+                           type='number'
+                           onChange={(event, value) => {
+                              this.setState({ weight: value.id });
+                           }}
+                           required
+                           name='weight'
+                           isOptionEqualToValue={(option, value) =>
+                              option.id === value.id
+                           }
+                           options={weights}
+                           renderInput={(params) => (
+                              <TextField
+                                 {...params}
+                                 required
+                                 label='Enter Weight (lbs)'
+                              />
+                           )}
+                        />
+                        <Autocomplete
+                           disablePortal
+                           onChange={(event, value) => {
+                              this.setState({ activityLevel: value.id });
+                           }}
+                           required
+                           isOptionEqualToValue={(option, value) =>
+                              option.id === value.id
+                           }
+                           name='activityLevel'
+                           options={activityLevels}
+                           //  style={{ width: '100%' }}
+                           renderInput={(params) => (
+                              <TextField
+                                 {...params}
+                                 label='Enter Activity Level'
+                              />
+                           )}
+                        />
+                        <Box display='flex' justifyContent='center'>
+                           <Button type='submit' variant='outlined'>
+                              Submit
+                           </Button>
+                        </Box>
                      </Box>
-                  </Grid>
-                  <Snackbar
-                     open={this.state.open}
-                     autoHideDuration={6000}
-                     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                     onClose={() => {
-                        this.setState({ open: false });
-                     }}
-                  >
-                     <Alert severity='success' sx={{ width: '100%' }}>
-                        Your custom calorie and carbohydrate ranges have been
-                        saved!
-                     </Alert>
-                  </Snackbar>
-               </form>
-               {this.state.total_calories && this.state.total_CHO && (
-                  <Metrics
-                     total_calories={this.state.total_calories}
-                     total_CHO={this.state.total_CHO}
-                     size={750}
-                  />
-               )}
-            </Grid>
+                     <Snackbar
+                        open={this.state.open}
+                        autoHideDuration={6000}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        onClose={() => {
+                           this.setState({ open: false });
+                        }}
+                     >
+                        <Alert severity='success' sx={{ width: '100%' }}>
+                           Your custom calorie and carbohydrate ranges have been
+                           saved!
+                        </Alert>
+                     </Snackbar>
+                  </form>
+               </Box>
+               <Box
+                  display='flex-column'
+                  justifyContent='center'
+                  alignItems='center'
+                  sx={{ width: '40vw' }}
+               >
+                  {this.state.total_calories && this.state.total_CHO && (
+                     <Metrics
+                        total_calories={this.state.total_calories}
+                        total_CHO={this.state.total_CHO}
+                        size={750}
+                     />
+                  )}
+               </Box>
+            </Box>
          </>
       );
    }
