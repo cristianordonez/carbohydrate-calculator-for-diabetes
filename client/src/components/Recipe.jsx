@@ -33,7 +33,7 @@ function Recipe({
       <>
          <CssBaseline />
          <Card sx={{ maxWidth: 345, minWidth: 150, margin: 0, maxHeight: 450 }}>
-            <Paper elevation={2} sx={{ width: '100%', height: '100%' }}>
+            <Paper elevation={10} sx={{ width: '100%', height: '100%' }}>
                <Tooltip title='Click to save recipe' placement='top-end' arrow>
                   <CardActionArea onClick={handleClick}>
                      <CardMedia

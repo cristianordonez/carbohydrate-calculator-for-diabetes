@@ -10,6 +10,12 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const config = require('./config/config');
 const MongoStore = require('connect-mongo');
+//// const webpackDevMiddleware = require('webpack-dev-middleware');
+
+//webpack config for express live reload
+//// const webpack = require('webpack');
+//// const webpackConfig = require('../webpack.config');
+//// const compiler = webpack(webpackConfig);
 
 //MIDDLEWARE//////////////////////////////////////////
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +26,14 @@ const corsOptions = {
    credentials: true,
 };
 app.use(cors(corsOptions));
+
+// Tell express to use the webpack-dev-middleware and use the webpack.config.js
+// configuration file as a base.
+//// app.use(
+////    webpackDevMiddleware(compiler, {
+////       publicPath: webpackConfig.output.publicPath,
+////    })
+//// );
 
 const oneDay = 1000 * 60 * 60 * 24;
 
@@ -45,8 +59,10 @@ const asyncHandler = (fn) => (req, res, next) =>
 app.use(
    '/login',
    asyncHandler(async (req, res, next) => {
+      console.log('req.body.username:', req.body.username);
       let user = await controllers.user.getByUsername(req.body.username);
       //if user with matching username eixsts, check their password with hashed password
+      console.log('user:', user);
       if (user) {
          const match = await bcrypt.compare(req.body.password, user.password);
          //if passwords match, set session authentication to true, and place username into session
@@ -69,16 +85,20 @@ app.use(
    })
 );
 
-// app.use('/login', authenticateUser);
-//todo add this to routes we want to check if user is logged in, adding before every route, and dealing with cookies
-// consider saving session id to req.session, then on every request try searching the database to see if this session exists, and if it does, continue, otherwise do something else
+//* middleware that checks if current user is authenticated on every request
 const sessionChecker = (req, res, next) => {
+   console.log('req.session in sessionchecker:', req.session);
    if (req.session.isAuthenticated) {
       next();
    } else {
-      res.status(401).send({ rtnCode: 1 });
+      res.status(401).send('User is not authenticated.');
    }
 };
+
+//* user session will be verified on all requests to these private routes
+app.use('/recipes', sessionChecker);
+app.use('/metrics', sessionChecker);
+app.use('/mealplan', sessionChecker);
 //END MIDDLEWARE//////////////////////////////////////////
 
 //ROUTES//////////////////////////////////////////////
@@ -89,14 +109,12 @@ const sessionChecker = (req, res, next) => {
 // }
 //* handles requests to login
 app.post('/login', (req, res) => {
-   //todo check if user has metrics saved on db, if so return it in session
+   console.log('req:', req);
    if (req.session.isAuthenticated) {
       res.send(req.body.username);
    } else {
       res.status(401).send('Incorrect username or password');
    }
-
-   // req.session.send()
 });
 
 // data = {
@@ -163,8 +181,6 @@ app.get('/metrics', (req, res) => {
 // }
 //* handles request to api for recipes
 app.get('/recipes', (req, res) => {
-   //todo handle user with unique id by searching for his total calories and carbs then sending to helper function
-
    let session = req.session;
    let response = apiHelperFuncs.getRecipes(
       req.query.query,
@@ -174,10 +190,11 @@ app.get('/recipes', (req, res) => {
    );
    response.then((data) => {
       console.log('data:', data);
-      console.log('req.session:', req.session);
       let response = {};
-      response.metrics = req.session.metrics;
-      response.body = data;
+      response.metrics = session.metrics;
+      response.calPerMeal = data.calPerMeal;
+      response.carbsPerMeal = data.carbsPerMeal;
+      response.body = data.data.hits;
       res.send(response);
    });
 });

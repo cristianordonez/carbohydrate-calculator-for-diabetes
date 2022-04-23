@@ -18,8 +18,8 @@ class RecipeList extends Component {
          query: '',
          meal: '',
          recipes: [],
-         total_calories: null,
-         total_CHO: null,
+         calPerMeal: null,
+         carbsPerMeal: null,
          open: false,
          isLoading: false,
       };
@@ -36,9 +36,9 @@ class RecipeList extends Component {
          let data = result.data;
          console.log('data:', data);
          this.setState({
-            recipes: data.body.hits,
-            total_calories: data.metrics.total_calories,
-            total_CHO: data.metrics.total_CHO,
+            recipes: data.body,
+            calPerMeal: data.calPerMeal,
+            carbsPerMeal: data.carbsPerMeal,
             open: true,
             isLoading: false,
          });
@@ -82,7 +82,7 @@ class RecipeList extends Component {
                   <CircularProgress size={200} />
                </Box>
             )}
-            {this.state.total_calories && this.state.total_CHO && (
+            {this.state.calPerMeal && this.state.carbsPerMeal && (
                <Grid sx={{ paddingLeft: 50, paddingTop: 15 }}>
                   <Snackbar
                      open={this.state.open}
@@ -97,12 +97,12 @@ class RecipeList extends Component {
                   >
                      <Alert severity='success' sx={{ width: '100%' }}>
                         Success! All recipes have between{' '}
-                        {Math.round(this.state.total_calories / 7) * 2 - 150} -
-                        {Math.round(this.state.total_calories / 7) * 2 + 150}{' '}
+                        {Math.round(this.state.calPerMeal - 150)} -
+                        {Math.round(this.state.calPerMeal + 150)}
                         Kcal per recipe and{' '}
-                        {Math.round(this.state.total_CHO / 7) * 2 - 10} -
-                        {Math.round(this.state.total_CHO / 7) * 2 + 10} Carbs
-                        per recipe
+                        {Math.round(this.state.carbsPerMeal - 10)} -
+                        {Math.round(this.state.carbsPerMeal + 10)} Carbs per
+                        recipe
                      </Alert>
                   </Snackbar>
                </Grid>

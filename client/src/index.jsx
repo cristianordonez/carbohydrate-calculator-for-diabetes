@@ -7,19 +7,27 @@ import Signup from './components/Signup.jsx';
 import Nav from './components/Nav.jsx';
 import * as ReactDOMClient from 'react-dom/client';
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+   typography: {
+      fontFamily: ['Plus Jakarta Sans', 'sans-serif'].join(','),
+   },
+});
 
 //todo handle conditional rendering of login logout button
 const container = document.getElementById('app');
 const root = ReactDOMClient.createRoot(container);
 root.render(
    <HashRouter>
-      {/* <Nav id='edamam-badge' /> */}
-      <Routes>
-         <Route path='/' element={<Login />}></Route>
-         <Route path='/home' element={<App />}></Route>
-         <Route path='/signup' element={<Signup />}></Route>
-         <Route path='/recipe' element={<RecipeList />}></Route>
-         <Route path='/mealplan' element={<MealPlan />}></Route>
-      </Routes>
+      <ThemeProvider theme={theme}>
+         <Routes>
+            <Route path='/' element={<Login />}></Route>
+            <Route path='/home' element={<App />}></Route>
+            <Route path='/signup' element={<Signup />}></Route>
+            <Route path='/recipe' element={<RecipeList />}></Route>
+            <Route path='/mealplan' element={<MealPlan />}></Route>
+         </Routes>
+      </ThemeProvider>
    </HashRouter>
 );

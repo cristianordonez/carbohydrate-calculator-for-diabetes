@@ -36,7 +36,7 @@ function Meal({
       <div>
          <CssBaseline />
          <Card sx={{ maxWidth: 355, margin: 5 }}>
-            <Paper elevation={3}>
+            <Paper elevation={10}>
                <Tooltip
                   title='Click to delete recipe'
                   arrow

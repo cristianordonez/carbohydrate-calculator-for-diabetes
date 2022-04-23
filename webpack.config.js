@@ -3,23 +3,39 @@ var SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
 
 module.exports = {
-  entry: `${SRC_DIR}/index.jsx`,
-  output: {
-    filename: 'bundle.js',
-    path: DIST_DIR,
-  },
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
+   mode: 'development',
+   entry: `${SRC_DIR}/index.jsx`,
+   output: {
+      filename: 'bundle.js',
+      path: DIST_DIR,
+      publicPath: '/',
+   },
+   devServer: {
+      static: DIST_DIR,
+      allowedHosts: 'auto',
+      proxy: {
+         '/api': {
+            target: 'http://localhost:1128',
+            pathRewrite: { '^/api': '' },
+         },
       },
-      {
-        test: /\.css$/i,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
+   },
+   module: {
+      rules: [
+         {
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            loader: 'babel-loader',
+         },
+         {
+            test: /\.css$/i,
+            exclude: /node_modules/,
+            use: ['style-loader', 'css-loader'],
+         },
+         {
+            test: /\.(png|svg|jpg|jpeg|gif)$/i,
+            type: 'asset/resource',
+         },
+      ],
+   },
 };

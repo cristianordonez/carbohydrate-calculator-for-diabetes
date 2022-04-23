@@ -48,7 +48,7 @@ class App extends Component {
    //page checks db if user has made metrics before, if so Metrics component is rendered and state is set
    async componentDidMount() {
       try {
-         let result = await axios.get('/metrics');
+         let result = await axios.get('http://localhost:8080/api/metrics');
          this.setState({
             total_calories: result.data.total_calories,
             total_CHO: result.data.total_CHO,
