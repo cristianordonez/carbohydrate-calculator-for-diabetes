@@ -59,10 +59,8 @@ const asyncHandler = (fn) => (req, res, next) =>
 app.use(
    '/login',
    asyncHandler(async (req, res, next) => {
-      console.log('req.body.username:', req.body.username);
       let user = await controllers.user.getByUsername(req.body.username);
       //if user with matching username eixsts, check their password with hashed password
-      console.log('user:', user);
       if (user) {
          const match = await bcrypt.compare(req.body.password, user.password);
          //if passwords match, set session authentication to true, and place username into session
@@ -87,7 +85,6 @@ app.use(
 
 //* middleware that checks if current user is authenticated on every request
 const sessionChecker = (req, res, next) => {
-   console.log('req.session in sessionchecker:', req.session);
    if (req.session.isAuthenticated) {
       next();
    } else {

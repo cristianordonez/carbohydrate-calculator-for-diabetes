@@ -11,6 +11,8 @@ import {
    Paper,
    Grid,
    Tooltip,
+   Snackbar,
+   Alert,
 } from '@mui/material';
 
 //recipe id will be inside the recipe uri
@@ -24,16 +26,22 @@ function Recipe({
    shareLink,
    handleCardClick,
    meal_type,
+   handleChildSave,
+   isSaved,
 }) {
    const handleClick = () => {
+      handleSave();
       let recipe_id = getId.slice(getId.indexOf('_') + 1, getId.length);
       handleCardClick(recipe_id, name, meal_type);
+   };
+   const handleSave = () => {
+      handleChildSave();
    };
    return (
       <>
          <CssBaseline />
          <Card sx={{ maxWidth: 345, minWidth: 150, margin: 0, maxHeight: 450 }}>
-            <Paper elevation={10} sx={{ width: '100%', height: '100%' }}>
+            <Paper elevation={24} sx={{ width: '100%', height: '100%' }}>
                <Tooltip title='Click to save recipe' placement='top-end' arrow>
                   <CardActionArea onClick={handleClick}>
                      <CardMedia
@@ -80,6 +88,18 @@ function Recipe({
                            </Typography>
                         </Grid>
                      </CardContent>
+                     <Snackbar
+                        open={isSaved}
+                        autoHideDuration={4000}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        onClose={() => {
+                           handleSave();
+                        }}
+                     >
+                        <Alert severity='info' sx={{ width: '100%' }}>
+                           Recipe saved! Go to Your Meals to view saved recipes.
+                        </Alert>
+                     </Snackbar>
                   </CardActionArea>
                </Tooltip>
                <CardActions>

@@ -6,7 +6,7 @@
    "scripts": {
       "server-dev": "nodemon server/server.js",
       "react-dev": "npx webpack --config webpack.config.js --mode development --watch",
-      "start": "webpack serve --open"
+      "start": "npx webpack serve --open"
    },
    "repository": {
       "type": "git",

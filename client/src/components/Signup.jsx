@@ -42,7 +42,7 @@ class Signup extends Component {
       } else {
          this.setState({ error: false });
          axios
-            .post('/signup', {
+            .post('api/signup', {
                username: this.state.username,
                password: this.state.password,
             })
@@ -66,7 +66,7 @@ class Signup extends Component {
          display: 'none',
       };
       const avatarStyle = {
-         backgroundColor: '#3E82FF',
+         backgroundColor: '#003BA7',
       };
       const inputStyle = {
          margin: '10px 0',
@@ -83,7 +83,7 @@ class Signup extends Component {
                sx={{
                   display: 'flex',
                   padding: '150',
-                  backgroundColor: '#3E82FF',
+                  backgroundColor: '#003BA7',
                   height: '100vh',
                   alignItems: 'center',
                   justifyContent: 'center',

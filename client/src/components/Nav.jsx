@@ -21,13 +21,12 @@ function Nav(props) {
    let navigate = useNavigate();
 
    async function handleClick() {
-      await axios.get('http://localhost:8080/api/logout');
+      await axios.get('api/logout');
       navigate('/', { replace: true });
    }
    const paperStyle = {
-      zIndex: 1251,
-      backgroundColor: '#3E82FF',
-      color: 'white',
+      backgroundColor: '#003BA7',
+      color: '#E8E6E3',
    };
    const navLinksStyle = {
       display: 'flex',

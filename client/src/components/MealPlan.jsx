@@ -60,7 +60,7 @@ class MealPlan extends Component {
       console.log('id in meal plan parent component:', id);
       let body = {};
       body.recipe_id = id;
-      let promise = axios.post('http://localhost:8080/api/mealplan', body);
+      let promise = axios.post('api/mealplan', body);
       promise.then((response) => {
          console.log('response:', response);
          window.location.reload();

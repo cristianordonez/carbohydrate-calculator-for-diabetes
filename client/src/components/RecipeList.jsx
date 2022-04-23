@@ -22,10 +22,12 @@ class RecipeList extends Component {
          carbsPerMeal: null,
          open: false,
          isLoading: false,
+         childSaved: false,
       };
       this.handleSearch = this.handleSearch.bind(this);
       this.handleChildChange = this.handleChildChange.bind(this);
       this.handleCardClick = this.handleCardClick.bind(this);
+      this.handleChildSave = this.handleChildSave.bind(this);
    }
 
    handleSearch() {
@@ -43,10 +45,14 @@ class RecipeList extends Component {
             carbsPerMeal: data.carbsPerMeal,
             open: true,
             isLoading: false,
+            childSaved: false,
          });
       });
    }
 
+   handleChildSave() {
+      this.setState({ childSaved: !this.state.childSaved });
+   }
    handleChildChange(name, value) {
       this.setState({ [name]: value });
    }
@@ -92,7 +98,7 @@ class RecipeList extends Component {
                         this.setState({ open: false });
                      }}
                      autoHideDuration={10000}
-                     anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                      onClose={() => {
                         this.setState({ open: false });
                      }}
@@ -135,6 +141,8 @@ class RecipeList extends Component {
                            total_yield={recipe.recipe.yield}
                            shareLink={recipe.recipe.shareAs}
                            handleCardClick={this.handleCardClick}
+                           handleChildSave={this.handleChildSave}
+                           isSaved={this.state.childSaved}
                         />
                      </Grid>
                   ))}

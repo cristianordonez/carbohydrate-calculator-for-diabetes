@@ -33,12 +33,7 @@ class Login extends Component {
    }
    async handleSubmit() {
       try {
-         console.log('here in handlesubmit:');
-         console.log('this.state:', this.state);
-         let response = await axios.post(
-            'http://localhost:8080/api/login',
-            this.state
-         );
+         let response = await axios.post('/api/login', this.state);
          this.setState({ redirect: true });
       } catch (err) {
          //if user is not authenticated, response will go to catch block and redirect will be set to false
@@ -57,7 +52,7 @@ class Login extends Component {
          display: 'none',
       };
       const avatarStyle = {
-         backgroundColor: '#3E82FF',
+         backgroundColor: '#003BA7',
       };
       const inputStyle = {
          margin: '10px 0',
@@ -83,8 +78,8 @@ class Login extends Component {
                   sx={{
                      margin: '0',
                      padding: '20px',
-                     backgroundColor: '#3E82FF',
-                     color: 'white',
+                     backgroundColor: '#003BA7',
+                     color: '#E8E6E3',
                   }}
                >
                   <Box
