@@ -33,7 +33,7 @@ class Login extends Component {
    }
    async handleSubmit() {
       try {
-         let response = await axios.post('/api/login', this.state);
+         let response = await axios.get('/api/login', this.state);
          this.setState({ redirect: true });
       } catch (err) {
          //if user is not authenticated, response will go to catch block and redirect will be set to false
@@ -58,7 +58,6 @@ class Login extends Component {
          margin: '10px 0',
       };
       const infoStyle = {
-         //  height: '50vh',
          width: '50vh',
       };
       if (this.state.redirect) {

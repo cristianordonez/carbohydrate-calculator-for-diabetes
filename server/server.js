@@ -11,13 +11,6 @@ const bcrypt = require('bcrypt');
 const config = require('./config/config');
 const MongoStore = require('connect-mongo');
 
-//// const webpackDevMiddleware = require('webpack-dev-middleware');
-
-//webpack config for express live reload
-//// const webpack = require('webpack');
-//// const webpackConfig = require('../webpack.config');
-//// const compiler = webpack(webpackConfig);
-
 //MIDDLEWARE//////////////////////////////////////////
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -28,17 +21,9 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Tell express to use the webpack-dev-middleware and use the webpack.config.js
-// configuration file as a base.
-//// app.use(
-////    webpackDevMiddleware(compiler, {
-////       publicPath: webpackConfig.output.publicPath,
-////    })
-//// );
-
 const errorController = (err, req, res, next) => {
    console.log('err in error controller middleware:', err);
-   res.status(500).send('error has occured in cristians server');
+   res.status(500).send('error has occured in server');
 };
 //* error handler middleware
 app.use(errorController);
@@ -113,8 +98,7 @@ app.use('/mealplan', sessionChecker);
 //     password: string
 // }
 //* handles requests to login
-app.post('/login', (req, res) => {
-   console.log('req:', req);
+app.get('/login', (req, res) => {
    if (req.session.isAuthenticated) {
       res.send(req.body.username);
    } else {
@@ -128,24 +112,30 @@ app.post('/login', (req, res) => {
 // }
 //* handles request to create an account
 app.post('/signup', (req, res) => {
-   let saltRounds = 10;
-   bcrypt.hash(req.body.password, saltRounds, function (err, hashedPassword) {
-      if (err) {
-         throw new Error(err);
-      } else {
-         req.body.password = hashedPassword;
-         controllers.user
-            .save(req.body)
-            .then((response) => {
-               res.statusCode = 200;
-               res.send('Success!');
-            })
-            .catch((err) => {
-               res.status(401).send({ rtnCode: 1 });
-            });
-      }
-   });
+   controllers.user.saveNewUser(req, res);
 });
+//// //* handles request to create an account
+//// app.post('/signup', (req, res) => {
+////    controllers.user.saveNewUser(req, res);
+//
+////    let saltRounds = 10;
+////    bcrypt.hash(req.body.password, saltRounds, function (err, hashedPassword) {
+////       if (err) {
+////          throw new Error(err);
+////       } else {
+////          req.body.password = hashedPassword;
+////          controllers.user
+////             .saveNewUser(req.body)
+////             .then((response) => {
+////                res.statusCode = 200;
+////                res.send('Success!');
+////             })
+////             .catch((err) => {
+////                res.status(401).send({ rtnCode: 1 });
+////             });
+////       }
+////    });
+//// });
 
 //* handles logout requests by destroying the session
 app.get('/logout', sessionChecker, (req, res) => {

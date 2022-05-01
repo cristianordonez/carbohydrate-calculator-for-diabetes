@@ -1,6 +1,6 @@
 //interacts with server and the model
-
 const models = require('../models/models');
+const bcrypt = require('bcrypt');
 
 module.exports = {
    user: {
@@ -19,14 +19,40 @@ module.exports = {
          result.total_CHO = Math.floor((rmr * 0.5) / 4);
          return result;
       },
-      save: async function (userData) {
-         try {
-            let response = await models.user.save(userData);
-            return response;
-         } catch (err) {
-            throw new Error('could not create account');
-         }
+      saveNewUser: async function (req, res, next) {
+         let saltRounds = 10;
+         bcrypt.hash(
+            req.body.password,
+            saltRounds,
+            function (err, hashedPassword) {
+               if (err) {
+                  throw new Error(err);
+               } else {
+                  req.body.password = hashedPassword;
+                  try {
+                     let promise = models.user.save(req.body);
+                     promise.then((response) => {
+                        res.statusCode = 200;
+                        res.send('Success!');
+                     });
+                     promise.catch((err) => {
+                        res.status(401).send({ rtnCode: 1 });
+                     });
+                  } catch (err) {
+                     console.log('err in saveNewUser:', err);
+                  }
+               }
+            }
+         );
       },
+      // saveNewUser: async function (userData) {
+      //    try {
+      //       let response = await models.user.save(userData);
+      //       return response;
+      //    } catch (err) {
+      //       throw new Error('could not create account');
+      //    }
+      // },
       getByUsername: async function (username) {
          try {
             let result = await models.user.get(username);
