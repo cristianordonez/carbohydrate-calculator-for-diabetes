@@ -52,13 +52,13 @@ const asyncHandler = (fn) => (req, res, next) =>
 app.use(
    '/login',
    asyncHandler(async (req, res, next) => {
-      let user = await controllers.user.getByUsername(req.body.username);
+      let user = await controllers.user.getByUsername(req.query.username);
       //if user with matching username eixsts, check their password with hashed password
       if (user) {
-         const match = await bcrypt.compare(req.body.password, user.password);
+         const match = await bcrypt.compare(req.query.password, user.password);
          //if passwords match, set session authentication to true, and place username into session
          if (match) {
-            req.session.username = req.body.username;
+            req.session.username = req.query.username;
             req.session.isAuthenticated = true;
             // next();
             //otherwise send status code error
@@ -100,7 +100,7 @@ app.use('/mealplan', sessionChecker);
 //* handles requests to login
 app.get('/login', (req, res) => {
    if (req.session.isAuthenticated) {
-      res.send(req.body.username);
+      res.send(req.query.username);
    } else {
       res.status(401).send('Incorrect username or password');
    }
@@ -114,28 +114,6 @@ app.get('/login', (req, res) => {
 app.post('/signup', (req, res) => {
    controllers.user.saveNewUser(req, res);
 });
-//// //* handles request to create an account
-//// app.post('/signup', (req, res) => {
-////    controllers.user.saveNewUser(req, res);
-//
-////    let saltRounds = 10;
-////    bcrypt.hash(req.body.password, saltRounds, function (err, hashedPassword) {
-////       if (err) {
-////          throw new Error(err);
-////       } else {
-////          req.body.password = hashedPassword;
-////          controllers.user
-////             .saveNewUser(req.body)
-////             .then((response) => {
-////                res.statusCode = 200;
-////                res.send('Success!');
-////             })
-////             .catch((err) => {
-////                res.status(401).send({ rtnCode: 1 });
-////             });
-////       }
-////    });
-//// });
 
 //* handles logout requests by destroying the session
 app.get('/logout', sessionChecker, (req, res) => {
@@ -152,49 +130,51 @@ app.get('/logout', sessionChecker, (req, res) => {
 // }
 //* handles request for user metrics
 app.post('/metrics', sessionChecker, (req, res) => {
-   let userData = controllers.user.calculateKcalCarbReq(req.body);
-   //    controllers.user.save(userData)
-   controllers.user.updateUserMetrics(req.session.username, userData);
-   req.session.metrics = userData;
-   res.send(userData);
+   controllers.user.calculateKcalCarbReq(req, res);
 });
 
 //todo handles getting metric data if it exists from database
 app.get('/metrics', (req, res) => {
-   let user = controllers.user.getByUsername(req.session.username);
-   user.then((userData) => {
-      let metrics = {};
-      metrics.total_CHO = userData.total_CHO;
-      metrics.total_calories = userData.total_calories;
-      res.send(metrics);
-   });
+   controllers.user.getByUsername(req, res);
 });
+//// app.get('/metrics', (req, res) => {
+////    let user = controllers.user.getByUsername(req.session.username);
+////    user.then((userData) => {
+////       let metrics = {};
+////       metrics.total_CHO = userData.total_CHO;
+////       metrics.total_calories = userData.total_calories;
+////       res.send(metrics);
+////    });
+//// });
 
 // data = {
 //     query:
 //     meal: Breakfast, Lunch, or Dinner
 // }
-//* handles request to api for recipes
+//todo handles request to api for recipes
 app.get('/recipes', (req, res) => {
-   let session = req.session;
-   let currentUser = controllers.user.getByUsername(req.session.username);
-   currentUser.then((user) => {
-      let response = apiHelperFuncs.getRecipes(
-         req.query.query,
-         req.query.meal,
-         user.total_calories,
-         user.total_CHO
-      );
-      response.then((data) => {
-         let response = {};
-         response.metrics = session.metrics;
-         response.calPerMeal = data.calPerMeal;
-         response.carbsPerMeal = data.carbsPerMeal;
-         response.body = data.data.hits;
-         res.send(response);
-      });
-   });
+   controllers.recipe.get(req, res);
 });
+////app.get('/recipes', (req, res) => {
+////   let session = req.session;
+////   let currentUser = controllers.user.getByUsername(req.session.username);
+////   currentUser.then((user) => {
+////      let response = apiHelperFuncs.getRecipes(
+////         req.query.query,
+////         req.query.meal,
+////         user.total_calories,
+////         user.total_CHO
+////      );
+////      response.then((data) => {
+////         let response = {};
+////         response.metrics = session.metrics;
+////         response.calPerMeal = data.calPerMeal;
+////         response.carbsPerMeal = data.carbsPerMeal;
+////         response.body = data.data.hits;
+////         res.send(response);
+////      });
+////   });
+////});
 
 // data = {
 //     recipe_id: Number,

@@ -1,23 +1,33 @@
 //interacts with server and the model
 const models = require('../models/models');
 const bcrypt = require('bcrypt');
+const apiHelperFuncs = require('../helpers/edamamHelper');
 
 module.exports = {
    user: {
-      calculateKcalCarbReq: function (metrics) {
-         let weightInKg = metrics.weight / 2.2;
-         let heightInCm = Math.floor(metrics.height * 2.54);
-         let additionalCalories = metrics.gender === 'female' ? -161 : 5;
+      calculateKcalCarbReq: function (req, res, next) {
+         let weightInKg = req.body.weight / 2.2;
+         let heightInCm = Math.floor(req.body.height * 2.54);
+         let additionalCalories = req.body.gender === 'female' ? -161 : 5;
          let rmr =
             10 * weightInKg +
             6.25 * heightInCm -
-            5 * metrics.age +
+            5 * req.body.age +
             additionalCalories;
          //adjust for activity level
          let result = {};
-         result.total_calories = Math.floor(rmr * metrics.activityLevel);
+         result.total_calories = Math.floor(rmr * req.body.activityLevel);
          result.total_CHO = Math.floor((rmr * 0.5) / 4);
-         return result;
+         //after finding total kcal and CHO, update db with these metrics
+         let promise = this.updateUserMetrics(req.session.username, result);
+         promise.then((response) => {
+            req.session.metrics = result;
+            res.send(result);
+         });
+         promise.catch((err) => {
+            console.log('err in update user metrics:', err);
+            res.send('error updating metrics');
+         });
       },
       saveNewUser: async function (req, res, next) {
          let saltRounds = 10;
@@ -32,33 +42,27 @@ module.exports = {
                   try {
                      let promise = models.user.save(req.body);
                      promise.then((response) => {
-                        res.statusCode = 200;
-                        res.send('Success!');
+                        res.status(200).send('Success!');
                      });
                      promise.catch((err) => {
                         res.status(401).send({ rtnCode: 1 });
                      });
                   } catch (err) {
                      console.log('err in saveNewUser:', err);
+                     res.send(400).send('Error creating user.');
                   }
                }
             }
          );
       },
-      // saveNewUser: async function (userData) {
-      //    try {
-      //       let response = await models.user.save(userData);
-      //       return response;
-      //    } catch (err) {
-      //       throw new Error('could not create account');
-      //    }
-      // },
-      getByUsername: async function (username) {
+      getByUsername: async function (req, res, next) {
          try {
-            let result = await models.user.get(username);
-            return result;
+            let result = await models.user.get(req.session.username);
+            let { total_CHO, total_calories } = result;
+            let metrics = { total_CHO, total_calories };
+            res.send(metrics);
          } catch (err) {
-            throw new Error(err);
+            res.status(401).send('Could not get metrics.');
          }
       },
       getUsernameRecipes: async function (username) {
@@ -111,6 +115,28 @@ module.exports = {
             // throw new Error(err);
             // return err;
             console.error(err);
+         }
+      },
+      get: async function (req, res, next) {
+         try {
+            let currentUser = await models.user.get(req.session.username);
+            apiHelperFuncs
+               .getRecipes(
+                  req.query.query,
+                  req.query.meal,
+                  currentUser.total_calories,
+                  currentUser.total_CHO
+               )
+               .then((data) => {
+                  let { calPerMeal, carbsPerMeal } = data;
+                  let response = { calPerMeal, carbsPerMeal };
+                  response.body = data.data.hits;
+                  response.metrics = req.session.metrics;
+                  res.send(response);
+               });
+         } catch (err) {
+            console.log('err:', err);
+            res.status(400).send('Incorrect query');
          }
       },
    },

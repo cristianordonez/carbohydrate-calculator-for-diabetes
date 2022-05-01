@@ -33,7 +33,13 @@ class Login extends Component {
    }
    async handleSubmit() {
       try {
-         let response = await axios.get('/api/login', this.state);
+         let { username, password } = this.state;
+         let response = await axios.get('/api/login', {
+            params: {
+               username,
+               password,
+            },
+         });
          this.setState({ redirect: true });
       } catch (err) {
          //if user is not authenticated, response will go to catch block and redirect will be set to false

@@ -68,6 +68,7 @@ class App extends Component {
          this.setState({ error: true, helperText: 'Please enter an option' });
          return;
       } else {
+         console.log('this.state:', this.state);
          let response = await axios.post(
             'http://localhost:8080/api/metrics',
             this.state
