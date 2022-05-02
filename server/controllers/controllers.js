@@ -134,6 +134,15 @@ module.exports = {
       get: async function (req, res, next) {
          try {
             let currentUser = await models.user.get(req.session.username);
+            //check to see if user has not entered metrics, and send error back to client if they have not
+            console.log('currentUser:', currentUser);
+            if (!currentUser.total_calories || !currentUser.total_CHO) {
+               console.log('should be in this block');
+               res.status(424).send(
+                  'Please enter metrics before searching for recipes.'
+               );
+               return;
+            }
             apiHelperFuncs
                .getRecipes(
                   req.query.query,
@@ -150,13 +159,14 @@ module.exports = {
                });
          } catch (err) {
             console.log('err:', err);
-            res.status(400).send('Incorrect query');
+            res.status(400).send('No recipes found. Please try again.');
          }
       },
       getPromises: async function (recipes) {
          let promises = [];
+         console.log('recipes:', recipes);
          for (let i = 0; i < recipes.length; i++) {
-            promises.push(apiHelperFuncs.getSingleRecipe(recipes[i].recipe_id));
+            promises.push(apiHelperFuncs.getSingleRecipe(recipes[i]));
          }
          let currentPromise = Promise.all(promises).then((data) => {
             return data;

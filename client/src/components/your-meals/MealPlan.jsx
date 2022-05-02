@@ -18,27 +18,25 @@ class MealPlan extends Component {
    }
 
    async componentDidMount() {
+      //retrieves recipes from db and aligns them based on meal_type
       let promise = await axios.get('api/mealplan');
       this.setState({ user: promise.data.username });
       promise.data.recipes.forEach((recipe) => {
-         if (
-            recipe.recipe.mealType[0].includes('dinner') &&
-            recipe.recipe.dishType[0] === 'main course'
-         ) {
+         if (recipe.meal_type === 'dinner') {
             this.setState((state) => {
                const dinner = state.dinner.concat(recipe);
                return {
                   dinner,
                };
             });
-         } else if (recipe.recipe.mealType[0].includes('breakfast')) {
+         } else if (recipe.meal_type === 'breakfast') {
             this.setState((state) => {
                const breakfast = state.breakfast.concat(recipe);
                return {
                   breakfast,
                };
             });
-         } else if (recipe.recipe.mealType[0].includes('snack')) {
+         } else if (recipe.meal_type === 'snack') {
             this.setState((state) => {
                const snack = state.snack.concat(recipe);
                return {

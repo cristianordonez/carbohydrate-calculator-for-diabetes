@@ -23,7 +23,11 @@ class RecipeList extends Component {
          open: false,
          isLoading: false,
          childSaved: false,
-         hasError: false,
+         hasErrorOnSave: false,
+         //refactor to get response from server for save haserroronsaveresponse
+         hasErrorOnSaveResponse: '',
+         hasErrorOnSearch: false,
+         hasErrorOnSearchResponse: '',
       };
       this.handleSearch = this.handleSearch.bind(this);
       this.handleChildChange = this.handleChildChange.bind(this);
@@ -35,23 +39,44 @@ class RecipeList extends Component {
    handleSearch() {
       this.setState({ isLoading: true });
       let options = { query: this.state.query, meal: this.state.meal };
-      let promise = axios.get('http://localhost:8080/api/recipes', {
-         params: options,
-      });
-      promise.then((result) => {
-         let data = result.data;
-         this.setState({
-            recipes: data.body,
-            calPerMeal: data.calPerMeal,
-            carbsPerMeal: data.carbsPerMeal,
-            open: true,
-            isLoading: false,
-            childSaved: false,
+      let self = this;
+      axios
+         .get('http://localhost:8080/api/recipes', {
+            params: options,
+         })
+         .then((result) => {
+            let data = result.data;
+            this.setState({
+               recipes: data.body,
+               calPerMeal: data.calPerMeal,
+               carbsPerMeal: data.carbsPerMeal,
+               open: true,
+               isLoading: false,
+               childSaved: false,
+            });
+         })
+         .catch(function (err) {
+            if (err.response) {
+               //request was made and server responds with status code
+               console.log('error.response.data:', err.response.data);
+               console.log('this:', this);
+               self.setState({
+                  hasErrorOnSearch: true,
+                  hasErrorOnSearchResponse: err.response.data,
+                  isLoading: false,
+                  open: true,
+               });
+            } else if (err.request) {
+               //request was made but no response was received
+               console.log('err.request:', err.request);
+            } else {
+               //something else happended that triggered an error
+               console.log('err.message:', err.message);
+            }
          });
-      });
    }
 
-   //* handles opening alert when card is clicked to be saved (refactor to include in handleChildChage)
+   //* handles opening alert when card is clicked to be saved
    handleChildSave() {
       this.setState({ childSaved: !this.state.childSaved });
    }
@@ -74,7 +99,7 @@ class RecipeList extends Component {
       });
       //if error, change state to display different message alert
       promise.catch((err) => {
-         this.setState({ hasError: true });
+         this.setState({ hasErrorOnSave: true });
       });
    }
 
@@ -99,30 +124,43 @@ class RecipeList extends Component {
                   <CircularProgress size={200} />
                </Box>
             )}
-            {this.state.calPerMeal && this.state.carbsPerMeal && (
-               <Grid sx={{ paddingLeft: 50, paddingTop: 15 }}>
-                  <Snackbar
-                     open={this.state.open}
-                     onClick={() => {
-                        this.setState({ open: false });
-                     }}
-                     autoHideDuration={10000}
-                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                     onClose={() => {
-                        this.setState({ open: false });
-                     }}
-                  >
-                     <Alert severity='success' sx={{ width: '100%' }}>
-                        Success! All recipes have between{' '}
-                        {Math.round(this.state.calPerMeal - 150)} -
-                        {Math.round(this.state.calPerMeal + 150)}
-                        Kcal per recipe and{' '}
-                        {Math.round(this.state.carbsPerMeal - 10)} -
-                        {Math.round(this.state.carbsPerMeal + 10)} Carbs per
-                        recipe
-                     </Alert>
-                  </Snackbar>
-               </Grid>
+            {!this.state.hasErrorOnSearch && (
+               <Snackbar
+                  open={this.state.open}
+                  onClick={() => {
+                     this.setState({ open: false });
+                  }}
+                  autoHideDuration={10000}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  onClose={() => {
+                     this.setState({ open: false });
+                  }}
+               >
+                  <Alert severity='success' sx={{ width: '100%' }}>
+                     Success! All recipes have between{' '}
+                     {Math.round(this.state.calPerMeal + 150)}
+                     {Math.round(this.state.calPerMeal - 150)} - Kcal per recipe
+                     and {Math.round(this.state.carbsPerMeal - 10)} -
+                     {Math.round(this.state.carbsPerMeal + 10)} Carbs per recipe
+                  </Alert>
+               </Snackbar>
+            )}
+            {this.state.hasErrorOnSearch && (
+               <Snackbar
+                  open={this.state.open}
+                  onClick={() => {
+                     this.setState({ open: false });
+                  }}
+                  autoHideDuration={10000}
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  onClose={() => {
+                     this.setState({ open: false });
+                  }}
+               >
+                  <Alert severity='error' sx={{ width: '100%' }}>
+                     {this.state.hasErrorOnSearchResponse}
+                  </Alert>
+               </Snackbar>
             )}
             <Grid
                container
@@ -139,7 +177,7 @@ class RecipeList extends Component {
                      <Grid sx={{ margin: 0, padding: 0 }} item key={index}>
                         <Recipe
                            getId={recipe.recipe.uri}
-                           hasSaveError={this.state.hasError}
+                           hasSaveError={this.state.hasErrorOnSave}
                            meal_type={recipe.recipe.mealType[0]}
                            key={recipe.recipe.label}
                            imageUrl={recipe.recipe.images.REGULAR.url}

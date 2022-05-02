@@ -28,7 +28,6 @@ function Meal({
    handleChildDelete,
    id,
 }) {
-   console.log('id:', id);
    const handleDelete = () => {
       handleChildDelete(id);
    };
