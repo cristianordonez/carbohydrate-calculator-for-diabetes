@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar.jsx';
-import Nav from './Nav.jsx';
+import Nav from '../navigation/Nav.jsx';
 import Recipe from './Recipe.jsx';
 import axios from 'axios';
 import {

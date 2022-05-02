@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './styles/Nav.css';
+import '../../styles/Nav.css';
 import {
    AppBar,
    Typography,

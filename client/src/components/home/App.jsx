@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Metrics from './Metrics.jsx';
-import MealPlan from './MealPlan.jsx';
-import Recipe from './Recipe.jsx';
-import Login from './Login.jsx';
-import Signup from './Signup.jsx';
-import Nav from './Nav.jsx';
+import MealPlan from '../your-meals/MealPlan.jsx';
+import Recipe from '../find-recipes/Recipe.jsx';
+import Login from '../landing-login-page/Login.jsx';
+import Signup from '../landing-login-page/Signup.jsx';
+import Nav from '../navigation/Nav.jsx';
 // import { Route } from 'react-router-dom'
 import {
    Box,
@@ -286,7 +286,7 @@ class App extends Component {
                            open={this.state.open}
                            autoHideDuration={6000}
                            anchorOrigin={{
-                              vertical: 'top',
+                              vertical: 'bottom',
                               horizontal: 'right',
                            }}
                            onClose={() => {
@@ -295,7 +295,7 @@ class App extends Component {
                         >
                            <Alert severity='success' sx={{ width: '100%' }}>
                               Your custom calorie and carbohydrate ranges have
-                              been saved!
+                              been saved! You can now search for recipes.
                            </Alert>
                         </Snackbar>
                      </form>

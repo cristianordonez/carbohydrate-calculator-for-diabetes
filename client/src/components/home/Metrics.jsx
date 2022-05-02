@@ -7,21 +7,8 @@ class Metrics extends Component {
       super(props);
    }
    render() {
-      //this is edamame badge I need to include
       return (
          <>
-            {/* <Grid
-                  top={0}
-                  left={0}
-                  bottom={0}
-                  right={0}
-                  position='absolute'
-                  display='flex'
-                  alignItems='center'
-                  justifyContent='center'
-                  direction='column'
-                  container
-               > */}
             <Box display='flex' justifyContent='center'>
                <Typography variant='h6' align='center'>
                   Total Calories Per Day:

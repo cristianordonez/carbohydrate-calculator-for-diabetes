@@ -1,10 +1,10 @@
 import React from 'react';
-import App from './components/App.jsx';
-import MealPlan from './components/MealPlan.jsx';
-import RecipeList from './components/RecipeList.jsx';
-import Login from './components/Login.jsx';
-import Signup from './components/Signup.jsx';
-import Nav from './components/Nav.jsx';
+import App from './components/home/App.jsx';
+import MealPlan from './components/your-meals/MealPlan.jsx';
+import RecipeList from './components/find-recipes/RecipeList.jsx';
+import Login from './components/landing-login-page/Login.jsx';
+import Signup from './components/landing-login-page/Signup.jsx';
+import Nav from './components/navigation/Nav.jsx';
 import * as ReactDOMClient from 'react-dom/client';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';

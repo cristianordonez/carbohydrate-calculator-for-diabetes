@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Meal from './Meal.jsx';
-import Nav from './Nav.jsx';
+import Nav from '../navigation/Nav.jsx';
 import axios from 'axios';
 import { Grid, Typography } from '@mui/material';
 
@@ -21,7 +21,6 @@ class MealPlan extends Component {
       let promise = await axios.get('api/mealplan');
       this.setState({ user: promise.data.username });
       promise.data.recipes.forEach((recipe) => {
-         console.log('recipe:', recipe);
          if (
             recipe.recipe.mealType[0].includes('dinner') &&
             recipe.recipe.dishType[0] === 'main course'

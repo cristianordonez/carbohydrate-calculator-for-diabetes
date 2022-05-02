@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import axios from 'axios';
-import landingPageImg from './img/background.svg';
+import landingPageImg from '../../img/background.svg';
 class Login extends Component {
    constructor(props) {
       super(props);
