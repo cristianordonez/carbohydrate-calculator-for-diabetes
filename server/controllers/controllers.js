@@ -5,7 +5,11 @@ const apiHelperFuncs = require('../helpers/edamamHelper');
 
 module.exports = {
    user: {
-      calculateKcalCarbReq: function (req, res, next) {
+      get: async function (username) {
+         let promise = await models.user.get(username);
+         return promise;
+      },
+      calculateKcalCarbReq: function (req, res) {
          let weightInKg = req.body.weight / 2.2;
          let heightInCm = Math.floor(req.body.height * 2.54);
          let additionalCalories = req.body.gender === 'female' ? -161 : 5;
@@ -25,11 +29,10 @@ module.exports = {
             res.send(result);
          });
          promise.catch((err) => {
-            console.log('err in update user metrics:', err);
             res.send('error updating metrics');
          });
       },
-      saveNewUser: async function (req, res, next) {
+      saveNewUser: async function (req, res) {
          let saltRounds = 10;
          bcrypt.hash(
             req.body.password,
@@ -55,7 +58,7 @@ module.exports = {
             }
          );
       },
-      getByUsername: async function (req, res, next) {
+      getByUsername: async function (req, res) {
          try {
             let result = await models.user.get(req.session.username);
             let { total_CHO, total_calories } = result;
@@ -73,14 +76,6 @@ module.exports = {
             throw new Error(err);
          }
       },
-      saveRecipeToUser: async function (username, recipe) {
-         try {
-            let promise = await models.user.update(username, recipe);
-            return promise;
-         } catch (err) {
-            return err;
-         }
-      },
       updateUserMetrics: async function (username, metrics) {
          try {
             let promise = await models.user.updateMetrics(username, metrics);
@@ -89,32 +84,51 @@ module.exports = {
             throw new Error(err);
          }
       },
-      deleteRecipeFromUser: async function (username, recipe_id) {
-         try {
-            await models.user.deleteRecipeFromUser(username, recipe_id);
-         } catch (err) {
-            throw new Error(err);
-         }
-      },
    },
    recipe: {
-      save: async function (recipe) {
+      save: async function (req, res) {
          try {
-            let promise = await models.recipe.save(recipe);
-            return promise;
+            let response = await models.recipe.save(req.body);
+            if (!response.recipe_id) {
+               res.status(401).json(response);
+            } else {
+               req.session.savedRecipe = response;
+               this.saveRecipeToUser(req, res);
+            }
          } catch (err) {
-            // throw new Exception(err);
             console.error(err);
+            res.send('Error saving recipe');
          }
       },
-      delete: async function (recipe_id) {
+      saveRecipeToUser: async function (req, res) {
          try {
-            let promise = await models.recipe.delete(recipe_id);
-            return promise;
+            let promise = await models.user.update(
+               req.session.username,
+               req.session.savedRecipe
+            );
+            res.send('Successfully posted recipe!');
          } catch (err) {
-            // throw new Error(err);
-            // return err;
-            console.error(err);
+            res.status(401).send('Recipe already exists in users account.');
+         }
+      },
+      delete: async function (req, res) {
+         try {
+            await models.recipe.delete(req.body.recipe_id);
+            await this.deleteRecipeFromUser(
+               req.session.username,
+               req.body.recipe_id
+            );
+            res.send('Recipe has been deleted');
+         } catch (err) {
+            console.log('err:', err);
+            res.status(401).send('Could not delete recipe.');
+         }
+      },
+      deleteRecipeFromUser: async function (username, id) {
+         try {
+            await models.user.deleteRecipeFromUser(username, id);
+         } catch (err) {
+            console.log('err:', err);
          }
       },
       get: async function (req, res, next) {
@@ -137,6 +151,31 @@ module.exports = {
          } catch (err) {
             console.log('err:', err);
             res.status(400).send('Incorrect query');
+         }
+      },
+      getPromises: async function (recipes) {
+         let promises = [];
+         for (let i = 0; i < recipes.length; i++) {
+            promises.push(apiHelperFuncs.getSingleRecipe(recipes[i].recipe_id));
+         }
+         let currentPromise = Promise.all(promises).then((data) => {
+            return data;
+         });
+         return currentPromise;
+      },
+      getUserRecipes: async function (req, res) {
+         try {
+            let user = await models.user.get(req.session.username);
+            let result = this.getPromises(user.recipes);
+            result.then((arrayOfRecipes) => {
+               let body = {};
+               body.username = req.session.username;
+               body.recipes = arrayOfRecipes;
+               res.send(body);
+            });
+         } catch (err) {
+            console.log('err:', err);
+            res.status(401).send('Error retrieving recipes from db');
          }
       },
    },

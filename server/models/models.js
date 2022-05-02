@@ -20,7 +20,6 @@ module.exports = {
          }
       },
       update: function (name, recipe) {
-         console.log('recipe in update user models:', recipe);
          db.User.findOneAndUpdate(
             { username: name },
             { $push: { recipes: recipe } },
@@ -68,13 +67,10 @@ module.exports = {
          }
       },
       delete: function (id) {
-         console.log('id in models:', id);
-
          db.Recipe.findOneAndDelete({ recipe_id: id }, (err, response) => {
             if (err) {
                throw new Error(err);
             } else {
-               console.log('response:', response);
                return response;
             }
          });

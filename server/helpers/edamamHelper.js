@@ -27,7 +27,6 @@ module.exports = {
          response.data = result.data;
          response.calPerMeal = calPerMeal;
          response.carbsPerMeal = carbsPerMeal;
-         console.log('response:', response);
          return response;
       } catch (err) {
          throw new Error(err);
