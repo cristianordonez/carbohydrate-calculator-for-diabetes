@@ -58,8 +58,6 @@ class RecipeList extends Component {
          .catch(function (err) {
             if (err.response) {
                //request was made and server responds with status code
-               console.log('error.response.data:', err.response.data);
-               console.log('this:', this);
                self.setState({
                   hasErrorOnSearch: true,
                   hasErrorOnSearchResponse: err.response.data,
@@ -138,10 +136,10 @@ class RecipeList extends Component {
                >
                   <Alert severity='success' sx={{ width: '100%' }}>
                      Success! All recipes have between{' '}
-                     {Math.round(this.state.calPerMeal + 150)}
-                     {Math.round(this.state.calPerMeal - 150)} - Kcal per recipe
-                     and {Math.round(this.state.carbsPerMeal - 10)} -
-                     {Math.round(this.state.carbsPerMeal + 10)} Carbs per recipe
+                     {Math.round(this.state.calPerMeal + 100)} -
+                     {Math.round(this.state.calPerMeal - 100)} Kcal per recipe
+                     and {Math.round(this.state.carbsPerMeal - 5)} -
+                     {Math.round(this.state.carbsPerMeal + 5)} Carbs per recipe
                   </Alert>
                </Snackbar>
             )}

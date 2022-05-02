@@ -28,34 +28,34 @@ class Metrics extends Component {
             </Box>
             <MetricsMeal
                icon='Breakfast'
-               minCarbs={Math.floor((this.props.total_CHO / 7) * 2 - 10)}
-               maxCarbs={Math.floor((this.props.total_CHO / 7) * 2 + 10)}
-               maxKcal={Math.floor((this.props.total_calories / 7) * 2 + 150)}
-               minKcal={Math.floor((this.props.total_calories / 7) * 2 - 150)}
+               minCarbs={Math.floor((this.props.total_CHO / 7) * 2 - 5)}
+               maxCarbs={Math.floor((this.props.total_CHO / 7) * 2 + 5)}
+               maxKcal={Math.floor((this.props.total_calories / 7) * 2 + 100)}
+               minKcal={Math.floor((this.props.total_calories / 7) * 2 - 100)}
             />
 
             <MetricsMeal
                icon='Lunch'
-               minCarbs={Math.floor((this.props.total_CHO / 7) * 2 - 10)}
-               maxCarbs={Math.floor((this.props.total_CHO / 7) * 2 + 10)}
-               maxKcal={Math.floor((this.props.total_calories / 7) * 2 + 150)}
-               minKcal={Math.floor((this.props.total_calories / 7) * 2 - 150)}
+               minCarbs={Math.floor((this.props.total_CHO / 7) * 2 - 5)}
+               maxCarbs={Math.floor((this.props.total_CHO / 7) * 2 + 5)}
+               maxKcal={Math.floor((this.props.total_calories / 7) * 2 + 100)}
+               minKcal={Math.floor((this.props.total_calories / 7) * 2 - 100)}
             />
 
             <MetricsMeal
                icon='Dinner'
-               minCarbs={Math.floor((this.props.total_CHO / 7) * 2 - 10)}
-               maxCarbs={Math.floor((this.props.total_CHO / 7) * 2 + 10)}
-               maxKcal={Math.floor((this.props.total_calories / 7) * 2 + 150)}
-               minKcal={Math.floor((this.props.total_calories / 7) * 2 - 150)}
+               minCarbs={Math.floor((this.props.total_CHO / 7) * 2 - 5)}
+               maxCarbs={Math.floor((this.props.total_CHO / 7) * 2 + 5)}
+               maxKcal={Math.floor((this.props.total_calories / 7) * 2 + 100)}
+               minKcal={Math.floor((this.props.total_calories / 7) * 2 - 100)}
             />
 
             <MetricsMeal
                icon='Snacks'
-               minCarbs={Math.floor(this.props.total_CHO / 7 - 10)}
-               maxCarbs={Math.floor(this.props.total_CHO / 7 + 10)}
-               maxKcal={Math.floor(this.props.total_calories / 7 + 150)}
-               minKcal={Math.floor(this.props.total_calories / 7 - 150)}
+               minCarbs={Math.floor(this.props.total_CHO / 7 - 5)}
+               maxCarbs={Math.floor(this.props.total_CHO / 7 + 5)}
+               maxKcal={Math.floor(this.props.total_calories / 7 + 100)}
+               minKcal={Math.floor(this.props.total_calories / 7 - 100)}
             />
          </>
       );

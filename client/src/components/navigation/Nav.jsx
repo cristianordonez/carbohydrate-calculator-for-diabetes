@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../../styles/Nav.css';
 import {
    AppBar,
@@ -22,7 +22,11 @@ function Nav(props) {
 
    async function handleClick() {
       await axios.get('api/logout');
-      navigate('/', { replace: true });
+      navigate('/', {
+         state: {
+            loggedOut: true,
+         },
+      });
    }
    const paperStyle = {
       backgroundColor: '#003BA7',
@@ -56,14 +60,12 @@ function Nav(props) {
                <Link to='/mealplan' className='link'>
                   <Typography variant='h6'>Your Meals</Typography>
                </Link>
-
                <Tooltip title='Logout' placement='bottom-end'>
                   <Button
                      variant='outlined'
                      color='logout'
                      onClick={handleClick}
                   >
-                     {/* <Typography variant='h6'>Logout</Typography> */}
                      <LogoutIcon />
                   </Button>
                </Tooltip>
