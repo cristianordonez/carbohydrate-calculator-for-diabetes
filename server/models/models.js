@@ -4,20 +4,12 @@ const db = require('../database/db');
 module.exports = {
    user: {
       save: async function (user) {
-         try {
-            let response = await db.User.create(user);
-            return response;
-         } catch (err) {
-            throw new Error('could not create account');
-         }
+         //! error handling
+         await db.User.create(user);
       },
       get: async function (name) {
-         try {
-            let user = await db.User.findOne({ username: name });
-            return user;
-         } catch (err) {
-            throw new Error(err);
-         }
+         let user = await db.User.findOne({ username: name });
+         return user;
       },
       update: function (name, recipe) {
          db.User.findOneAndUpdate(
@@ -46,25 +38,16 @@ module.exports = {
          );
       },
       deleteRecipeFromUser: async function (name, id) {
-         try {
-            await db.User.findOneAndUpdate(
-               { username: name },
-               { $pull: { recipes: { recipe_id: id } } }
-            );
-         } catch (err) {
-            throw new Error(err);
-         }
+         await db.User.findOneAndUpdate(
+            { username: name },
+            { $pull: { recipes: { recipe_id: id } } }
+         );
       },
    },
    recipe: {
       save: async function (recipe) {
-         try {
-            let response = await db.Recipe.create(recipe);
-            return response;
-         } catch (err) {
-            // throw new Error(err);
-            return err;
-         }
+         let response = await db.Recipe.create(recipe);
+         return response;
       },
       delete: function (id) {
          db.Recipe.findOneAndDelete({ recipe_id: id }, (err, response) => {

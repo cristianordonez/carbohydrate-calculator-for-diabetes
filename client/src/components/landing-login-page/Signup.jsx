@@ -23,6 +23,7 @@ class Signup extends Component {
          password: '',
          confirmPassword: '',
          error: false,
+         errorResponse: '',
          helperText: '',
          shouldRedirect: false,
       };
@@ -34,7 +35,6 @@ class Signup extends Component {
    }
    handleSubmit() {
       //check if password and confirmed are equal
-
       if (this.state.password !== this.state.confirmPassword) {
          this.setState({ error: true, helperText: 'Passwords do not match' });
       } else if (this.state.password.length < 5) {
@@ -50,7 +50,13 @@ class Signup extends Component {
                this.setState({ shouldRedirect: true });
             })
             .catch((err) => {
-               throw new Error(err);
+               if (err.response) {
+                  console.log('err.response.data:', err.response.data);
+                  this.setState({
+                     open: true,
+                     errorResponse: err.response.data,
+                  });
+               }
             });
       }
    }
@@ -153,21 +159,6 @@ class Signup extends Component {
                         >
                            Signup
                         </Button>
-                        <Snackbar
-                           open={this.state.open}
-                           anchorOrigin={{
-                              vertical: 'top',
-                              horizontal: 'right',
-                           }}
-                           autoHideDuration={4000}
-                           onClose={() => {
-                              this.setState({ open: false });
-                           }}
-                        >
-                           <Alert severity='error' sx={{ width: '100%' }}>
-                              Incorrect Username or Password
-                           </Alert>
-                        </Snackbar>
                         <Typography sx={{ marginTop: 'auto' }}>
                            Have an account already?
                            <Link href='/'>Login</Link>
@@ -177,7 +168,7 @@ class Signup extends Component {
                      <Snackbar
                         open={this.state.open}
                         anchorOrigin={{
-                           vertical: 'top',
+                           vertical: 'bottom',
                            horizontal: 'right',
                         }}
                         autoHideDuration={4000}
@@ -185,8 +176,8 @@ class Signup extends Component {
                            this.setState({ open: false });
                         }}
                      >
-                        <Alert severity='error' sx={{ width: '50%' }}>
-                           Incorrect Username or Password
+                        <Alert severity='error' sx={{ width: '100%' }}>
+                           {this.state.errorResponse}
                         </Alert>
                      </Snackbar>
                   </Paper>

@@ -32,7 +32,7 @@ module.exports = {
             res.send('error updating metrics');
          });
       },
-      saveNewUser: async function (req, res) {
+      saveNewUser: function (req, res) {
          let saltRounds = 10;
          bcrypt.hash(
             req.body.password,
@@ -43,16 +43,19 @@ module.exports = {
                } else {
                   req.body.password = hashedPassword;
                   try {
-                     let promise = models.user.save(req.body);
-                     promise.then((response) => {
-                        res.status(200).send('Success!');
-                     });
-                     promise.catch((err) => {
-                        res.status(401).send({ rtnCode: 1 });
-                     });
+                     models.user
+                        .save(req.body)
+                        .then((response) => {
+                           res.status(200).send('Success!');
+                        })
+                        .catch((err) => {
+                           //error creating new user
+                           res.status(409).send('Username already exists.');
+                           return;
+                        });
                   } catch (err) {
-                     console.log('err in saveNewUser:', err);
-                     res.send(400).send('Error creating user.');
+                     //error in hashing password
+                     res.status(400).send('Error creating user.');
                   }
                }
             }
@@ -135,9 +138,7 @@ module.exports = {
          try {
             let currentUser = await models.user.get(req.session.username);
             //check to see if user has not entered metrics, and send error back to client if they have not
-            console.log('currentUser:', currentUser);
             if (!currentUser.total_calories || !currentUser.total_CHO) {
-               console.log('should be in this block');
                res.status(424).send(
                   'Please enter metrics before searching for recipes.'
                );
@@ -164,7 +165,6 @@ module.exports = {
       },
       getPromises: async function (recipes) {
          let promises = [];
-         console.log('recipes:', recipes);
          for (let i = 0; i < recipes.length; i++) {
             promises.push(apiHelperFuncs.getSingleRecipe(recipes[i]));
          }
@@ -184,7 +184,6 @@ module.exports = {
                res.send(body);
             });
          } catch (err) {
-            console.log('err:', err);
             res.status(401).send('Error retrieving recipes from db');
          }
       },
