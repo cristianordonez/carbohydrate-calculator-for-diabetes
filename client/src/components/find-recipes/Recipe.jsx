@@ -7,7 +7,6 @@ import {
    Button,
    CardActionArea,
    CardActions,
-   CssBaseline,
    Paper,
    Grid,
    Tooltip,
@@ -44,8 +43,7 @@ function Recipe({
    let alertType = hasSaveError ? 'error' : 'info';
    return (
       <>
-         <CssBaseline />
-         <Card sx={{ maxWidth: 345, minWidth: 150, margin: 0, maxHeight: 450 }}>
+         <Card sx={{ margin: 0, width: '100%' }}>
             <Snackbar
                open={isSaved}
                autoHideDuration={5000}

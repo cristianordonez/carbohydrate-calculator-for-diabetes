@@ -164,16 +164,22 @@ class RecipeList extends Component {
             <Grid
                container
                spacing={1}
+               alignItems='stretch'
                sx={{
                   height: '100%',
                   width: '100%',
-                  paddingLeft: 50,
-                  paddingTop: 5,
+                  paddingLeft: '25rem',
+                  paddingTop: '5rem',
                }}
             >
                {this.state.recipes.length > 0 &&
                   this.state.recipes.map((recipe, index) => (
-                     <Grid sx={{ margin: 0, padding: 0 }} item key={index}>
+                     <Grid
+                        sx={{ margin: 0, padding: 0, display: 'flex' }}
+                        item
+                        key={index}
+                        xs={3}
+                     >
                         <Recipe
                            getId={recipe.recipe.uri}
                            hasSaveError={this.state.hasErrorOnSave}
@@ -197,6 +203,11 @@ class RecipeList extends Component {
                   <Box
                      sx={{
                         paddingTop: '4em',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
                      }}
                   >
                      <Box
@@ -211,7 +222,7 @@ class RecipeList extends Component {
                            ingredients of choice!
                         </Typography>
                      </Box>
-                     <img src={SuccessImage}></img>
+                     <img style={{ height: '50rem' }} src={SuccessImage}></img>
                   </Box>
                )}
             </Grid>
