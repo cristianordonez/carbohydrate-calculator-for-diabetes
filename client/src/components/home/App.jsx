@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import Metrics from './Metrics.jsx';
-import MealPlan from '../your-meals/MealPlan.jsx';
-import Recipe from '../find-recipes/Recipe.jsx';
-import Login from '../landing-login-page/Login.jsx';
-import Signup from '../landing-login-page/Signup.jsx';
 import Nav from '../navigation/Nav.jsx';
 // import { Route } from 'react-router-dom'
 import {
@@ -44,6 +40,7 @@ class App extends Component {
       };
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleChildSubmit = this.handleChildSubmit.bind(this);
    }
 
    //page checks db if user has made metrics before, if so Metrics component is rendered and state is set
@@ -58,17 +55,16 @@ class App extends Component {
          throw new Error(err);
       }
    }
-
+   //* updates state when textfield input is entered
    handleChange(e) {
       this.setState({ [e.target.name]: e.target.value });
    }
-
+   //* handles main form submit
    async handleSubmit() {
       if (this.state.gender.length === 0) {
          this.setState({ error: true, helperText: 'Please enter an option' });
          return;
       } else {
-         console.log('this.state:', this.state);
          let response = await axios.post(
             'http://localhost:8080/api/metrics',
             this.state
@@ -80,6 +76,16 @@ class App extends Component {
             open: true,
          });
       }
+   }
+   //* handles submits from dialog box
+   async handleChildSubmit(total_calories, total_CHO) {
+      let body = { total_calories, total_CHO };
+      let response = await axios.patch('/api/metrics', body);
+      console.log('response:', response);
+      this.setState({
+         total_CHO: parseInt(response.data.total_CHO),
+         total_calories: parseInt(response.data.total_calories),
+      });
    }
 
    render() {
@@ -312,6 +318,7 @@ class App extends Component {
                         total_calories={this.state.total_calories}
                         total_CHO={this.state.total_CHO}
                         size={750}
+                        handleChildSubmit={this.handleChildSubmit}
                      />
                   )}
                </Box>

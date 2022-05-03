@@ -140,6 +140,11 @@ app.post('/mealplan', (req, res) => {
    // controllers.recipe.getUserRecipes(req, res);
 });
 
+//* handles editing total calories and carbs for user
+app.patch('/metrics', (req, res) => {
+   console.log('here in patch');
+   controllers.user.updateKcalCarbReq(req, res);
+});
 app.options('/', (req, res) => res.send());
 //END ROUTES//////////////////////////////////////////////
 

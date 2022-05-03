@@ -32,6 +32,20 @@ module.exports = {
             res.send('error updating metrics');
          });
       },
+      updateKcalCarbReq: async function (req, res) {
+         console.log('req.body:', req.body);
+         try {
+            let response = await models.user.updateMetrics(
+               req.session.username,
+               req.body
+            );
+            console.log('response:', response);
+            //then send back metrics to client to update state
+            res.send(req.body);
+         } catch (err) {
+            console.log('err:', err);
+         }
+      },
       saveNewUser: function (req, res) {
          let saltRounds = 10;
          bcrypt.hash(

@@ -11,7 +11,7 @@ class MetricsMeal extends Component {
    render() {
       //this is edamame badge I need to include
       return (
-         <Card sx={{ maxWidth: 400, margin: '10px auto' }}>
+         <Card sx={{ maxWidth: 400, margin: '0 auto' }}>
             <Paper elevation={24}>
                <CardContent>
                   <Box display='flex' justifyContent='space-between'>
@@ -25,13 +25,12 @@ class MetricsMeal extends Component {
                      {this.props.icon === 'Dinner' && <DinnerDiningIcon />}
                      {this.props.icon === 'Snacks' && <LocalDiningIcon />}
                   </Box>
-                  <Typography variant='subtitle1' color='text.secondary'>
-                     Recommended Kcal Range: {this.props.minKcal} -{' '}
-                     {this.props.maxKcal} kcal
+                  <Typography variant='subtitle2' color='text.secondary'>
+                     Calorie range: {this.props.minKcal} - {this.props.maxKcal}
                   </Typography>
-                  <Typography variant='subtitle1' color='text.secondary'>
-                     Recommended Carb Range: {this.props.minCarbs} -
-                     {this.props.maxCarbs} g
+                  <Typography variant='subtitle2' color='text.secondary'>
+                     Carbohydrate range (grams): {this.props.minCarbs} -
+                     {this.props.maxCarbs}
                   </Typography>
                </CardContent>
             </Paper>
