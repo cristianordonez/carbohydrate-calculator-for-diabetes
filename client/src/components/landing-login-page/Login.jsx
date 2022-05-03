@@ -26,7 +26,7 @@ const Login = () => {
    const [message, showMessage] = useState(false);
    //handles showing alert if user has been redirected from logout button
    useEffect(() => {
-      if (location.state.loggedOut === true) {
+      if (location.state) {
          showMessage(true);
       }
    }, []);

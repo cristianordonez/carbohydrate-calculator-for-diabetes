@@ -3,6 +3,7 @@ import Sidebar from './Sidebar.jsx';
 import Nav from '../navigation/Nav.jsx';
 import Recipe from './Recipe.jsx';
 import axios from 'axios';
+import SuccessImage from '../../img/Success.svg';
 import {
    Grid,
    Typography,
@@ -192,6 +193,27 @@ class RecipeList extends Component {
                         />
                      </Grid>
                   ))}
+               {this.state.recipes.length === 0 && (
+                  <Box
+                     sx={{
+                        paddingTop: '4em',
+                     }}
+                  >
+                     <Box
+                        sx={{
+                           textOverflow: 'ellipsis',
+                           width: '40rem',
+                        }}
+                     >
+                        <Typography variant='h6'>
+                           Find delicious recipes that match your recommended
+                           carbohydrate and calorie amounts, with your
+                           ingredients of choice!
+                        </Typography>
+                     </Box>
+                     <img src={SuccessImage}></img>
+                  </Box>
+               )}
             </Grid>
          </>
       );
