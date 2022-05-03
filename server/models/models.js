@@ -50,6 +50,7 @@ module.exports = {
          return response;
       },
       delete: function (id) {
+         console.log('id:', id);
          db.Recipe.findOneAndDelete({ recipe_id: id }, (err, response) => {
             if (err) {
                throw new Error(err);

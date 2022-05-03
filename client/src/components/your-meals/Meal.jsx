@@ -29,6 +29,7 @@ function Meal({
    id,
 }) {
    const handleDelete = () => {
+      console.log('id in meal.jsx:', id);
       handleChildDelete(id);
    };
    return (

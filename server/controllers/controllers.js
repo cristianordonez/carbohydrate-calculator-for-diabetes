@@ -115,15 +115,19 @@ module.exports = {
          }
       },
       delete: async function (req, res) {
+         console.log('req.body:', req.body);
          try {
             await models.recipe.delete(req.body.recipe_id);
             await this.deleteRecipeFromUser(
                req.session.username,
                req.body.recipe_id
             );
-            res.send('Recipe has been deleted');
+            //todo get updated recipes from database and return to client
+            // next();
+            // return;
+            this.getUserRecipes(req, res);
+            // res.send('Recipe has been deleted');
          } catch (err) {
-            console.log('err:', err);
             res.status(401).send('Could not delete recipe.');
          }
       },
@@ -174,6 +178,7 @@ module.exports = {
          return currentPromise;
       },
       getUserRecipes: async function (req, res) {
+         console.log('here in get user recipes');
          try {
             let user = await models.user.get(req.session.username);
             let result = this.getPromises(user.recipes);

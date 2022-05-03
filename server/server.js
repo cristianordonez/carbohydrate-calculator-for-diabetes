@@ -129,7 +129,6 @@ app.post('/recipes', (req, res) => {
    controllers.recipe.save(req, res);
 });
 
-//TODO fix error with recipes being rendered in wrong section of page on client side(try saving recipes in their own object before calling api for additional recipe info)
 //* handles request for getting saved recipes of user, getting data for each recipe from api
 app.get('/mealplan', (req, res) => {
    controllers.recipe.getUserRecipes(req, res);
@@ -138,7 +137,10 @@ app.get('/mealplan', (req, res) => {
 //* handles request for deleting saved recipes of user
 app.post('/mealplan', (req, res) => {
    controllers.recipe.delete(req, res);
+   // controllers.recipe.getUserRecipes(req, res);
 });
+
+app.options('/', (req, res) => res.send());
 //END ROUTES//////////////////////////////////////////////
 
 app.listen(port, () => {

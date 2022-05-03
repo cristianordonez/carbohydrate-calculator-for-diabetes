@@ -82,7 +82,6 @@ const Login = () => {
             sx={{
                display: 'flex',
                padding: '0px',
-
                height: '100vh',
             }}
          >

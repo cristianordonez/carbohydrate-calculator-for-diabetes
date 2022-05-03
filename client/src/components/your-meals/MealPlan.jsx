@@ -17,11 +17,20 @@ class MealPlan extends Component {
       this.handleChildDelete = this.handleChildDelete.bind(this);
    }
 
+   //retrieves recipes from db and aligns them based on meal_type
    async componentDidMount() {
-      //retrieves recipes from db and aligns them based on meal_type
       let promise = await axios.get('api/mealplan');
       this.setState({ user: promise.data.username });
-      promise.data.recipes.forEach((recipe) => {
+      // promise.data.recipes
+      this.updateRecipeState(promise.data.recipes);
+   }
+   //handles updating state after retrieving user recipes from db
+   updateRecipeState(array) {
+      if (array.length === 0) {
+         this.setState({ breakfast: [], lunch: [], dinner: [], snack: [] });
+         return;
+      }
+      array.forEach((recipe) => {
          if (recipe.meal_type === 'dinner') {
             this.setState((state) => {
                const dinner = state.dinner.concat(recipe);
@@ -54,6 +63,7 @@ class MealPlan extends Component {
       });
    }
 
+   //handles deleting recipes from db on click
    handleChildDelete(id) {
       console.log('id in meal plan parent component:', id);
       let body = {};
@@ -61,7 +71,8 @@ class MealPlan extends Component {
       let promise = axios.post('api/mealplan', body);
       promise.then((response) => {
          console.log('response:', response);
-         window.location.reload();
+         this.updateRecipeState(response.data.recipes);
+         // window.location.reload();
       });
    }
    render() {
