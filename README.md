@@ -26,6 +26,7 @@ A full-stack web application that takes in your weight, height, age, gender, and
 ## Tech Stack
 
 This project was built using custom webpack.config.js and the following technologies:
+
 <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" />
 <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" />
 <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
@@ -55,3 +56,5 @@ npm start
 ```
 
 ## Resources
+
+-  [Edamam API](https://www.edamam.com/?gclid=Cj0KCQjwyMiTBhDKARIsAAJ-9VuwvU8TGmj1rEfWavPwrBSU-tzk-fxHe4yFU5UdpV77PwDeHZWFwYMaAukDEALw_wcB)
