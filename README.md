@@ -18,10 +18,10 @@ A full-stack web application that takes in your weight, height, age, gender, and
 
 ## Demo
 
-![](diagrams/login-page.gif)
-![](diagrams/metrics-page.gif)
-![](diagrams/recipes.gif)
-![](diagrams/05-03-2022-20.49.13.jpg)
+![](diagrams/login-page.gif "Signup and Login pages")
+![](diagrams/metrics-page.gif "Form for entering metrics")
+![](diagrams/recipes.gif "Search for recipes page")
+![](diagrams/05-03-2022-20.49.13.jpg "Saved recipes")
 
 ## Tech Stack
 
