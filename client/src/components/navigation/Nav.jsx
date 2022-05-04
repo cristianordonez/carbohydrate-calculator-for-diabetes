@@ -47,11 +47,10 @@ function Nav(props) {
          <Paper elevation={1} style={paperStyle}>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                <Avatar sx={{ bgcolor: '#1D2D44' }}>
-                  <FoodBankIcon />
+                  <Link to='/home' className='link'>
+                     <FoodBankIcon />
+                  </Link>
                </Avatar>
-               <Link to='/home' className='link'>
-                  <Typography variant='h6'>Home</Typography>
-               </Link>
 
                <Link to='/recipe' className='link'>
                   <Typography variant='h6'>Find Recipes</Typography>

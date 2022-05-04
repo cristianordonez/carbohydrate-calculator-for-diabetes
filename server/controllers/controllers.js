@@ -33,13 +33,11 @@ module.exports = {
          });
       },
       updateKcalCarbReq: async function (req, res) {
-         console.log('req.body:', req.body);
          try {
             let response = await models.user.updateMetrics(
                req.session.username,
                req.body
             );
-            console.log('response:', response);
             //then send back metrics to client to update state
             res.send(req.body);
          } catch (err) {

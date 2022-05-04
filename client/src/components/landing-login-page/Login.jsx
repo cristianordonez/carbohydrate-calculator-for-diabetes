@@ -103,7 +103,7 @@ const Login = () => {
                   }}
                >
                   <Typography variant='h1'>
-                     Recipe Nutrition Calculator
+                     Diabetes Recipe Nutrition Calculator
                   </Typography>
 
                   <Box
