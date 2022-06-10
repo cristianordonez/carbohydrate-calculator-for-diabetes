@@ -81,7 +81,7 @@ class App extends Component {
    async handleChildSubmit(total_calories, total_CHO) {
       let body = { total_calories, total_CHO };
       let response = await axios.patch('/api/metrics', body);
-      console.log('response:', response);
+
       this.setState({
          total_CHO: parseInt(response.data.total_CHO),
          total_calories: parseInt(response.data.total_calories),

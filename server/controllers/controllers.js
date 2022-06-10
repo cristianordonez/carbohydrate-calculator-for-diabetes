@@ -41,7 +41,7 @@ module.exports = {
             //then send back metrics to client to update state
             res.send(req.body);
          } catch (err) {
-            console.log('err:', err);
+            res.send(err);
          }
       },
       saveNewUser: function (req, res) {
@@ -127,7 +127,6 @@ module.exports = {
          }
       },
       delete: async function (req, res) {
-         console.log('req.body:', req.body);
          try {
             await models.recipe.delete(req.body.recipe_id);
             await this.deleteRecipeFromUser(
@@ -135,10 +134,7 @@ module.exports = {
                req.body.recipe_id
             );
             //todo get updated recipes from database and return to client
-            // next();
-            // return;
             this.getUserRecipes(req, res);
-            // res.send('Recipe has been deleted');
          } catch (err) {
             res.status(401).send('Could not delete recipe.');
          }
@@ -175,7 +171,6 @@ module.exports = {
                   res.send(response);
                });
          } catch (err) {
-            console.log('err:', err);
             res.status(400).send('No recipes found. Please try again.');
          }
       },
@@ -190,7 +185,6 @@ module.exports = {
          return currentPromise;
       },
       getUserRecipes: async function (req, res) {
-         console.log('here in get user recipes');
          try {
             let user = await models.user.get(req.session.username);
             let result = this.getPromises(user.recipes);

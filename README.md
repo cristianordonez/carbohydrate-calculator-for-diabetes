@@ -1,6 +1,6 @@
 # Diabetes Recipe Nutrition Calculator
 
-A full-stack web application that takes in your weight, height, age, gender, and activity level and then gives you how many Calories and more importantly carbohydrates you should eat per day. It also allows you to search for recipes with your foods of choice that match these ranges. Helps solve the difficulty of finding recipe ideas that match a certain carbohydrate goal to keep your blood sugar levels stable. Created by a Registered Dietitian so you can be sure that provided ranges fall within a healthy range.
+A full-stack web app that takes in metrics such as your height and weight, and then gives you how many calories and carbs you should eat per day. Then you can search for recipes with a specific ingredient that match these ranges. Helps solve the difficulty of finding recipes that match a certain carb goal to keep your blood sugar levels stable.
 
 ## Features & Usage
 
@@ -10,11 +10,6 @@ A full-stack web application that takes in your weight, height, age, gender, and
 -  Lists recommended calorie and carbohydrate goal per meal
 -  After calorie and carbohydrates are entered, allows user to enter any food and a meal type, and then provides recipes that match calorie and carb range for this specific meal
 -  If user finds recipe they enjoy, they can then save specific recipe to their account
-
-## Potential Features
-
--  Allow user to view how many calorie/carbs they have left after saving meal
--  Allow user to enter allergie information
 
 ## Demo
 

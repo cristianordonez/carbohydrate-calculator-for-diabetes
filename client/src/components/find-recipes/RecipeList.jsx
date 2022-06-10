@@ -25,7 +25,6 @@ class RecipeList extends Component {
          isLoading: false,
          childSaved: false,
          hasErrorOnSave: false,
-         //refactor to get response from server for save haserroronsaveresponse
          hasErrorOnSaveResponse: '',
          hasErrorOnSearch: false,
          hasErrorOnSearchResponse: '',
@@ -67,10 +66,10 @@ class RecipeList extends Component {
                });
             } else if (err.request) {
                //request was made but no response was received
-               console.log('err.request:', err.request);
+               res.send(err.request);
             } else {
                //something else happended that triggered an error
-               console.log('err.message:', err.message);
+               res.send(err.message);
             }
          });
    }
