@@ -9,14 +9,12 @@ A full-stack web app that takes in metrics such as your height and weight, and t
 -  Allows user to manually update calorie and carbohydrate range without entering metrics
 -  Lists recommended calorie and carbohydrate goal per meal
 -  After calorie and carbohydrates are entered, allows user to enter any food and a meal type, and then provides recipes that match calorie and carb range for this specific meal
--  If user finds recipe they enjoy, they can then save specific recipe to their account
 
 ## Demo
 
 ![](diagrams/login-page.gif)
 ![](diagrams/metrics-page.gif)
 ![](diagrams/recipes.gif)
-![](diagrams/05-03-2022-20.49.13.jpg)
 
 ## Tech Stack
 
