@@ -1,6 +1,6 @@
-# Diabetes Recipe Nutrition Calculator
+# Carbohydratate Calculator for T2DM
 
-A full-stack web app that takes in metrics such as your height and weight, and then gives you how many calories and carbs you should eat per day. Then you can search for recipes with a specific ingredient that match these ranges. Helps solve the difficulty of finding recipes that match a certain carb goal to keep your blood sugar levels stable.
+A full-stack web app that takes in height, weight, age, activity level, and gender to determine daily recommended calories/carbs per meal for someone with Type 2 Diabetes Mellitus. Then you can search for recipes with a specific ingredient that match these ranges. Helps solve the difficulty of determining appropriate carb ranges to keep stable blood sugar levels.
 
 ## Features & Usage
 
@@ -9,7 +9,7 @@ A full-stack web app that takes in metrics such as your height and weight, and t
 -  Allows user to manually update calorie and carbohydrate range without entering metrics
 -  Lists recommended calorie and carbohydrate goal per meal
 -  After calorie and carbohydrates are entered, allows user to enter any food and a meal type, and then provides recipes that match calorie and carb range for this specific meal
--  If user finds recipe they enjoy, they can then save specific recipe to their account
+-  If user finds recipe they enjoy, they can then save specific recipe to their account to view later
 
 ## Demo
 
