@@ -16,7 +16,6 @@ A full-stack web app that takes in height, weight, age, activity level, and gend
 ![](diagrams/login-page.gif)
 ![](diagrams/metrics-page.gif)
 ![](diagrams/recipes.gif)
-![](diagrams/05-03-2022-20.49.13.jpg)
 
 ## Tech Stack
 
