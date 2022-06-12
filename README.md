@@ -1,4 +1,4 @@
-# Carbohydratate Calculator for T2DM
+# Carbohydratate Calculator for Diabetes
 
 A full-stack web app that takes in height, weight, age, activity level, and gender to determine daily recommended calories/carbs per meal for someone with Type 2 Diabetes Mellitus. Then you can search for recipes with a specific ingredient that match these ranges. Helps solve the difficulty of determining appropriate carb ranges to keep stable blood sugar levels.
 

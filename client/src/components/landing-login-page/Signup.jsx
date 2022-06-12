@@ -42,7 +42,7 @@ class Signup extends Component {
       } else {
          this.setState({ error: false });
          axios
-            .post('api/signup', {
+            .post('/signup', {
                username: this.state.username,
                password: this.state.password,
             })

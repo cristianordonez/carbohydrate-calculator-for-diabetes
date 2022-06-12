@@ -42,7 +42,7 @@ const Login = () => {
    };
    const handleSubmit = async () => {
       try {
-         let response = await axios.get('/api/login', {
+         let response = await axios.get('/login', {
             params: {
                username,
                password,
@@ -103,7 +103,7 @@ const Login = () => {
                   }}
                >
                   <Typography variant='h1'>
-                     Diabetes Recipe Nutrition Calculator
+                     Carbohydrate Calculator for Diabetes
                   </Typography>
 
                   <Box
